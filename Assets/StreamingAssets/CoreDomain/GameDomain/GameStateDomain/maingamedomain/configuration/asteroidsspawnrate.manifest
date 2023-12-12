@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 4286313302
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 731e2ea1bce1fcb808442aa13bdd45da
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0769b9b50a80479a5d368dd4f66c98e5
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 464b117c12e74846b730dd4b80768192, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AssetBundles/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Configuration/AsteroidsSpawnRateData.asset
+Dependencies: []
