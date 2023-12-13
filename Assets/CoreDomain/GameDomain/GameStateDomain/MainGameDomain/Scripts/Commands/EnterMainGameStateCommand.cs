@@ -50,15 +50,15 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 
         public override async UniTask Execute()
         {
-            LoadData();
-            CreateGameObjects();
-            SetupModules();
+            //LoadData();
+            //CreateGameObjects();
+            //SetupModules();
             
             _audioService.PlayAudio(AudioClipName.ThemeSongName, AudioChannelType.Master, AudioPlayType.Loop);
 
-            await WaitForAnyKeyPressed();
+            //await WaitForAnyKeyPressed();
 
-            _beginGameCommand.Create().Execute();
+            //_beginGameCommand.Create().Execute();
         }
 
         private void SetupModules()
