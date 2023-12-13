@@ -25,8 +25,9 @@ public class ArrowView : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log($"Enter! {collision.contacts.Length}");
+        var isCollisionPopable = collision.transform.GetComponent<PopableView>() != null;
         
-        if (_canStabInCurrentLoop && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
+        if (_canStabInCurrentLoop && isCollisionPopable && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
         {
             Debug.Log("Stab!");
             _rigidbody.velocity = Vector3.zero;
