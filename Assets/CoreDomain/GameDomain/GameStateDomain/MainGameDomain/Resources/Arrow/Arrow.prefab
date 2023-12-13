@@ -206,13 +206,10 @@ MonoBehaviour:
   _jumpForce: 7
   _jumpAngleRelativeToFloor: 75
   _rendererTransform: {fileID: 1148302177122998890}
-  _endZRotationAngleRelativeToFloor: -75
-  _currentZRotation: 0
-  _destinationZRotation: 0
   _startRotationLoopSpeed: -12
   _spacePressedRotationLoopSpeed: -15
   _angularDrag: 2
-  _angularDragPower: 1000
+  _arrowHeadCollider: {fileID: 0}
 --- !u!1 &3575220870666549556
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +350,51 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!1 &4789548837701404860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7171682494122786400}
+  - component: {fileID: 3671283564066141676}
+  m_Layer: 0
+  m_Name: ArrowHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7171682494122786400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789548837701404860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.00892, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1148302177122998890}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3671283564066141676
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789548837701404860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.0014427268
+  m_Center: {x: 2.987071e-17, y: -0.00031655442, z: 0}
 --- !u!1 &6662025602303511457
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +428,7 @@ Transform:
   m_Children:
   - {fileID: 6025116442982971599}
   - {fileID: 6069764470420954683}
+  - {fileID: 7171682494122786400}
   m_Father: {fileID: 7892361960732157027}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
@@ -452,5 +495,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05219447, y: 0.018426118, z: 0.04596327}
-  m_Center: {x: 0.0006923526, y: -0.0016836126, z: 0.0010385303}
+  m_Size: {x: 0.05219447, y: 0.019915389, z: 0.04596327}
+  m_Center: {x: 0.0006923526, y: -0.00093897746, z: 0.0010385303}
