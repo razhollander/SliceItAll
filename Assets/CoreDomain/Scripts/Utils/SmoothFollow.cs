@@ -8,11 +8,12 @@ public class SmoothFollow : MonoBehaviour
     public float HeightDamping = 2.0f;
     public float RotationDamping = 3.0f;
     public float DistanceDamping = 2.0f;
+    public float ViewRotationAngle = -20;
+    public Vector3 TargetOffset = new Vector3(0,0, 5);
     
     [SerializeField] private Transform _target;
     [SerializeField] private ZoomConfig _zoomInConfig;
     [SerializeField] private ZoomConfig _zoomOutConfig;
-
     private float _currentDistance;
 
     private void Awake()
@@ -46,7 +47,7 @@ public class SmoothFollow : MonoBehaviour
         }
 
         // Calculate the current rotation angles
-        var wantedRotationAngle = _target.eulerAngles.y;
+        var wantedRotationAngle = ViewRotationAngle;
         var wantedHeight = _target.position.y + Height;
         var wantedDistance = Distance;
 
@@ -66,11 +67,12 @@ public class SmoothFollow : MonoBehaviour
         // distance meters behind the target
         var pos = transform.position;
         pos = _target.position - currentRotation * Vector3.forward * _currentDistance;
+        pos += TargetOffset;
         pos.y = currentHeight;
         transform.position = pos;
 
         // Always look at the target
-        transform.LookAt(_target);
+        transform.LookAt(_target.position + TargetOffset);
     }
     
     [System.Serializable]

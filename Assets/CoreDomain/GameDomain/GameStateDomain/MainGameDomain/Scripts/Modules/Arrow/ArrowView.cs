@@ -1,5 +1,7 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
 
 public class ArrowView : MonoBehaviour
 {
@@ -12,13 +14,18 @@ public class ArrowView : MonoBehaviour
     [SerializeField] private float _angularDrag = 5;
     [SerializeField] private Collider _arrowHeadCollider;
     [SerializeField] private float _maxStabAngleWithSurface = 60;
+    [SerializeField] private float _shootAngleRelativeToFloor = -75;
+    [SerializeField] private float _shootRotationDuration = 0.5f;
+    [SerializeField] private float _shootVelocity = 10f;
     //[SerializeField] private float _minimalStabAngle = 45;
     private float _prevZRotation;
     private bool _canStabInCurrentLoop = false;
     
     private void Awake()
     {
+        Debug.Log("Target");
         _rigidbody.angularDrag = _angularDrag;
+        Camera.main.GetComponent<SmoothFollow>().SetTarget(transform);
         //_arrowHeadCollider.on
     }
 
@@ -27,7 +34,7 @@ public class ArrowView : MonoBehaviour
         Debug.Log($"Enter! {collision.contacts.Length}");
         var isCollisionPopable = collision.transform.GetComponent<PopableView>() != null;
         
-        if (_canStabInCurrentLoop && isCollisionPopable && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
+        if (_canStabInCurrentLoop && !isCollisionPopable && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
         {
             Debug.Log("Stab!");
             _rigidbody.velocity = Vector3.zero;
@@ -58,14 +65,43 @@ public class ArrowView : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
+        // for live testing
         _rigidbody.angularDrag = _angularDrag;
+#endif
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
+        
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Shoot().Forget();
+        }
     }
 
+    private async UniTask Shoot()
+    {
+        _rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.useGravity = false;
+        var shootVector = Quaternion.Euler(0, 0, _shootAngleRelativeToFloor) *Vector3.right;
+
+        await DOTween.To(
+            () => ConvertAngleToBeBetween0To360(_rigidbody.rotation.eulerAngles.z)-_shootAngleRelativeToFloor,
+            x => _rigidbody.rotation = ConvertAngleBetween0To360ToQuaternion(x+_shootAngleRelativeToFloor),
+            0, _shootRotationDuration);
+        //await _rigidbody.rotation = shootVector, _shootRotationDuration);
+        _rigidbody.useGravity = true;
+        _rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.velocity = shootVector * _shootVelocity;
+    }
+
+    private Quaternion ConvertAngleBetween0To360ToQuaternion(float angle)
+    {
+        return Quaternion.Euler(0, 0, angle);
+    }
     private void FixedUpdate()
     {
         var currentZRotation = ConvertAngleToBeBetween0To360(transform.eulerAngles.z);
