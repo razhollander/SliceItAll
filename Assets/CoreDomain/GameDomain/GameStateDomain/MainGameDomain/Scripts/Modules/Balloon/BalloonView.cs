@@ -17,6 +17,7 @@ public class BalloonView : MonoBehaviour
 
     public void OnPopped()
     {
+        _balloonHead.DisableCollider();
         _balloonHead.gameObject.SetActive(false);
         _balloonString.transform.DOScaleZ(0, 1.5f * _balloonString.transform.localScale.z).SetEase(Ease.OutCubic);
         _popParticleSystem.Play();
