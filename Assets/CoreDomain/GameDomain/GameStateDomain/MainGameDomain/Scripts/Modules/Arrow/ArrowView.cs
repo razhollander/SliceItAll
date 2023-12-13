@@ -11,10 +11,11 @@ public class ArrowView : MonoBehaviour
     [SerializeField] private float _spacePressedRotationLoopSpeed = 1;
     [SerializeField] private float _angularDrag = 5;
     [SerializeField] private Collider _arrowHeadCollider;
-    [SerializeField] private float _maxStabAngle = 45;
-    
+    [SerializeField] private float _maxStabAngleWithSurface = 60;
+    //[SerializeField] private float _minimalStabAngle = 45;
     private float _prevZRotation;
-
+    private bool _canStabInCurrentLoop = false;
+    
     private void Awake()
     {
         _rigidbody.angularDrag = _angularDrag;
@@ -23,27 +24,30 @@ public class ArrowView : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Enter!");
+        Debug.Log($"Enter! {collision.contacts.Length}");
         
-        if (collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
+        if (_canStabInCurrentLoop && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
         {
             Debug.Log("Stab!");
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.isKinematic = true;
+            _canStabInCurrentLoop = false;
         }
     }
 
     private bool DidStabContactPoint(ContactPoint contactPoint)
     {
-        Vector3 normal = contactPoint.normal;
-        Vector3 worldForward = transform.TransformDirection(_rendererTransform.transform.forward);
-
-        return Vector3.Angle(worldForward, normal) < _maxStabAngle;
+        Vector3 contactPointNormal = contactPoint.normal;
+        Vector3 hitVector = -transform.right;
+        Debug.Log($"contactPointNormal {contactPointNormal}, hitVector {hitVector}, angle {Vector3.Angle(hitVector, contactPointNormal)}");
+        return Vector3.Angle(hitVector, contactPointNormal) < _maxStabAngleWithSurface;
     }
 
     void Update()
     {
+        _rigidbody.angularDrag = _angularDrag;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -58,6 +62,17 @@ public class ArrowView : MonoBehaviour
         if (shouldStartANewLoop)
         {
             SetLoopAngularVelocity();
+        }
+
+        if (!_canStabInCurrentLoop)
+        {
+            var minimalStabAngle = 90f;
+            var didPassMinimalStabAngle = _prevZRotation < minimalStabAngle+10f && _prevZRotation > minimalStabAngle && currentZRotation > minimalStabAngle-10 && currentZRotation <= minimalStabAngle;
+
+            if (didPassMinimalStabAngle)
+            {
+                _canStabInCurrentLoop = true;
+            }
         }
 
         _prevZRotation = currentZRotation;
