@@ -36,6 +36,17 @@ public class ArrowView : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider otherCollider)
+    {
+        Debug.Log("Trigger enter");
+        var otherPopableView = otherCollider.GetComponent<PopableView>();
+
+        if (otherPopableView != null)
+        {
+            otherPopableView.Pop();
+        }
+    }
+
     private bool DidStabContactPoint(ContactPoint contactPoint)
     {
         Vector3 contactPointNormal = contactPoint.normal;
