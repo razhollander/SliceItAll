@@ -31,8 +31,8 @@ public class ArrowView : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Enter! {collision.contacts.Length}");
         var isCollisionPopable = collision.transform.GetComponent<PopableView>() != null;
+        Debug.Log($"Enter! {collision.contacts.Length}, _canStabInCurrentLoop {_canStabInCurrentLoop}, !isCollisionPopable {!isCollisionPopable}, collision.contacts.Length > 0 {collision.contacts.Length > 0}, DidStabContactPoint {DidStabContactPoint(collision.contacts[0])}");
         
         if (_canStabInCurrentLoop && !isCollisionPopable && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
         {
@@ -114,8 +114,8 @@ public class ArrowView : MonoBehaviour
 
         if (!_canStabInCurrentLoop)
         {
-            var minimalStabAngle = 90f;
-            var didPassMinimalStabAngle = _prevZRotation < minimalStabAngle+10f && _prevZRotation > minimalStabAngle && currentZRotation > minimalStabAngle-10 && currentZRotation <= minimalStabAngle;
+            var minimalStabAngle = 85f;
+            var didPassMinimalStabAngle = _prevZRotation < minimalStabAngle+30f && _prevZRotation > minimalStabAngle && currentZRotation > minimalStabAngle-30f && currentZRotation <= minimalStabAngle;
 
             if (didPassMinimalStabAngle)
             {
