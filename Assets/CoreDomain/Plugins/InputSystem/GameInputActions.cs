@@ -28,15 +28,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
             ""id"": ""544ef46b-18cc-4d3a-add4-6d59b65f7890"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
-                    ""type"": ""Button"",
-                    ""id"": ""9075e8d2-1e89-4444-8e81-6ff20d4b9c28"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""LeftClick"",
                     ""type"": ""Button"",
                     ""id"": ""2ee8a845-0813-4116-82de-7279d0747cb9"",
@@ -46,9 +37,18 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Boost"",
+                    ""name"": ""Jump"",
                     ""type"": ""Button"",
-                    ""id"": ""0631faf3-31e3-4afc-beee-be89e1377f80"",
+                    ""id"": ""75ff8088-6a03-4706-a553-99c29dce2840"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""42944e70-3ea2-48c4-945e-e6b39afeab70"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -56,39 +56,6 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""917071cf-1c1f-4ee9-8102-72d2146fe80b"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""c06c8053-df66-431d-afa9-aea5c56337eb"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""80ffe72b-8d39-4542-bf50-141e0c54cfd1"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""7ec6af3e-80c1-4e36-b174-b577a1f3b470"",
@@ -102,12 +69,45 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5c424506-fc7e-429d-a73b-8676fbe3df13"",
+                    ""id"": ""e1b4031b-b362-40f5-8a66-d05693f3f0bc"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": ""Press(pressPoint=0.5,behavior=2)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Boost"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e2ae00e-8287-4c91-8cce-13efb714790c"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7111b33f-f002-44fa-93a0-13e60e0e5eb7"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe91558a-2f1e-4531-b8c0-7d60eafc8423"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -206,9 +206,9 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
 }");
         // MainGame
         m_MainGame = asset.FindActionMap("MainGame", throwIfNotFound: true);
-        m_MainGame_Move = m_MainGame.FindAction("Move", throwIfNotFound: true);
         m_MainGame_LeftClick = m_MainGame.FindAction("LeftClick", throwIfNotFound: true);
-        m_MainGame_Boost = m_MainGame.FindAction("Boost", throwIfNotFound: true);
+        m_MainGame_Jump = m_MainGame.FindAction("Jump", throwIfNotFound: true);
+        m_MainGame_Shoot = m_MainGame.FindAction("Shoot", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
@@ -274,16 +274,16 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     // MainGame
     private readonly InputActionMap m_MainGame;
     private IMainGameActions m_MainGameActionsCallbackInterface;
-    private readonly InputAction m_MainGame_Move;
     private readonly InputAction m_MainGame_LeftClick;
-    private readonly InputAction m_MainGame_Boost;
+    private readonly InputAction m_MainGame_Jump;
+    private readonly InputAction m_MainGame_Shoot;
     public struct MainGameActions
     {
         private @GameInputActions m_Wrapper;
         public MainGameActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_MainGame_Move;
         public InputAction @LeftClick => m_Wrapper.m_MainGame_LeftClick;
-        public InputAction @Boost => m_Wrapper.m_MainGame_Boost;
+        public InputAction @Jump => m_Wrapper.m_MainGame_Jump;
+        public InputAction @Shoot => m_Wrapper.m_MainGame_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_MainGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -293,28 +293,28 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MainGameActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_MainGameActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_MainGameActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_MainGameActionsCallbackInterface.OnMove;
                 @LeftClick.started -= m_Wrapper.m_MainGameActionsCallbackInterface.OnLeftClick;
                 @LeftClick.performed -= m_Wrapper.m_MainGameActionsCallbackInterface.OnLeftClick;
                 @LeftClick.canceled -= m_Wrapper.m_MainGameActionsCallbackInterface.OnLeftClick;
-                @Boost.started -= m_Wrapper.m_MainGameActionsCallbackInterface.OnBoost;
-                @Boost.performed -= m_Wrapper.m_MainGameActionsCallbackInterface.OnBoost;
-                @Boost.canceled -= m_Wrapper.m_MainGameActionsCallbackInterface.OnBoost;
+                @Jump.started -= m_Wrapper.m_MainGameActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_MainGameActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_MainGameActionsCallbackInterface.OnJump;
+                @Shoot.started -= m_Wrapper.m_MainGameActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_MainGameActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_MainGameActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_MainGameActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
                 @LeftClick.started += instance.OnLeftClick;
                 @LeftClick.performed += instance.OnLeftClick;
                 @LeftClick.canceled += instance.OnLeftClick;
-                @Boost.started += instance.OnBoost;
-                @Boost.performed += instance.OnBoost;
-                @Boost.canceled += instance.OnBoost;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -378,9 +378,9 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
     public UIActions @UI => new UIActions(this);
     public interface IMainGameActions
     {
-        void OnMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
-        void OnBoost(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

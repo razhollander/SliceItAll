@@ -5,11 +5,11 @@ using Cysharp.Threading.Tasks;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Commands
 {
-    public class SpaceButtonClickedCommand : CommandSync<SpaceButtonClickedCommand>
+    public class JumpInputInvokedCommand : CommandSync<JumpInputInvokedCommand>
     {
         private readonly GameBoostModeChangedCommand.Factory _gameBoostModeChangedCommand;
 
-        private SpaceButtonClickedCommand(GameBoostModeChangedCommand.Factory gameBoostModeChangedCommand)
+        private JumpInputInvokedCommand(GameBoostModeChangedCommand.Factory gameBoostModeChangedCommand)
         {
             _gameBoostModeChangedCommand = gameBoostModeChangedCommand;
         }

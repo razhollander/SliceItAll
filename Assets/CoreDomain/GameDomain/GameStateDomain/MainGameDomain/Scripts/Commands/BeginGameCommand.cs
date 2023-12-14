@@ -18,7 +18,7 @@ public class BeginGameCommand : CommandSync<BeginGameCommand>
     private readonly IMainGameUiModule _mainGameUiModule;
     private readonly IPlayerSpaceshipModule _playerSpaceshipModule;
     private readonly ICameraService _cameraService;
-    private readonly IGameKeyboardInputsModule _gameKeyboardInputsModule;
+    private readonly IGameInputActionsModule _gameInputActionsModule;
 
     public BeginGameCommand(
         IFloorModule floorModule,
@@ -29,7 +29,7 @@ public class BeginGameCommand : CommandSync<BeginGameCommand>
         IMainGameUiModule mainGameUiModule,
         IPlayerSpaceshipModule playerSpaceshipModule,
         ICameraService cameraService,
-        IGameKeyboardInputsModule gameKeyboardInputsModule)
+        IGameInputActionsModule gameInputActionsModule)
     {
         _floorModule = floorModule;
         _asteroidsModule = asteroidsModule;
@@ -39,12 +39,12 @@ public class BeginGameCommand : CommandSync<BeginGameCommand>
         _mainGameUiModule = mainGameUiModule;
         _playerSpaceshipModule = playerSpaceshipModule;
         _cameraService = cameraService;
-        _gameKeyboardInputsModule = gameKeyboardInputsModule;
+        _gameInputActionsModule = gameInputActionsModule;
     }
 
     public override void Execute()
     {
-        _gameKeyboardInputsModule.EnableInputs();
+        _gameInputActionsModule.EnableInputs();
         _floorModule.StartMovement();
         _asteroidsModule.StartSpawning();
         _scoreModule.StartCountingScore();

@@ -23,6 +23,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private readonly IAsteroidsModule _asteroidsModule;
         private readonly IScoreModule _scoreModule;
         private readonly BeginGameCommand.Factory _beginGameCommand;
+        private readonly IArrowModule _arrowModule;
 
         public EnterMainGameStateCommand(
             MainGameStateEnterData stateEnterData,
@@ -34,7 +35,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             ICameraService cameraService,
             IAsteroidsModule asteroidsModule,
             IScoreModule scoreModule,
-            BeginGameCommand.Factory beginGameCommand)
+            BeginGameCommand.Factory beginGameCommand,
+            IArrowModule arrowModule)
         {
             _stateEnterData = stateEnterData;
             _mainGameUiModule = mainGameUiModule;
@@ -45,6 +47,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             _asteroidsModule = asteroidsModule;
             _scoreModule = scoreModule;
             _beginGameCommand = beginGameCommand;
+            _arrowModule = arrowModule;
             _audioService = audioService;
         }
 
@@ -52,7 +55,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             //LoadData();
             //CreateGameObjects();
-            //SetupModules();
+            FindGameObjects();
+            SetupModules();
             
             _audioService.PlayAudio(AudioClipName.ThemeSongName, AudioChannelType.Master, AudioPlayType.Loop);
 
@@ -61,13 +65,18 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             //_beginGameCommand.Create().Execute();
         }
 
+        private void FindGameObjects()
+        {
+            _arrowModule.FindArrow();
+        }
+
         private void SetupModules()
         {
-            _cameraService.SetCameraFollowTarget(GameCameraType.World, _playerSpaceshipModule.PlayerSpaceShipTransform);
-            _cameraService.SetCameraZoom(GameCameraType.World, true);
-            _asteroidsModule.SetAsteroidsPassedZPosition(_playerSpaceshipModule.PlayerSpaceShipTransform.position.z);
-            _mainGameUiModule.SwitchToBeforeGameView();
-            _playerSpaceshipModule.SetXMovementBounds(_floorModule.FloorHalfWidth);
+            _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
+            //_cameraService.SetCameraZoom(GameCameraType.World, true);
+            //_asteroidsModule.SetAsteroidsPassedZPosition(_playerSpaceshipModule.PlayerSpaceShipTransform.position.z);
+            //_mainGameUiModule.SwitchToBeforeGameView();
+            //_playerSpaceshipModule.SetXMovementBounds(_floorModule.FloorHalfWidth);
         }
 
         private void CreateGameObjects()

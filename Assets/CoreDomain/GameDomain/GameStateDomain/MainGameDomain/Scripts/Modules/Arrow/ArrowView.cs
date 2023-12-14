@@ -29,18 +29,16 @@ public class ArrowView : MonoBehaviour
     {
         Debug.Log("Target");
         _rigidbody.angularDrag = _angularDrag;
-        Camera.main.GetComponent<SmoothFollow>().SetTarget(transform);
-        //_arrowHeadCollider.on
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         var isCollisionPopable = collision.transform.GetComponent<PopableView>() != null;
-        Debug.Log($"Enter! {collision.contacts.Length}, _canStabInCurrentLoop {_canStabInCurrentLoop}, !isCollisionPopable {!isCollisionPopable}, collision.contacts.Length > 0 {collision.contacts.Length > 0}, DidStabContactPoint {DidStabContactPoint(collision.contacts[0])}");
+        //Debug.Log($"Enter! {collision.contacts.Length}, _canStabInCurrentLoop {_canStabInCurrentLoop}, !isCollisionPopable {!isCollisionPopable}, collision.contacts.Length > 0 {collision.contacts.Length > 0}, DidStabContactPoint {DidStabContactPoint(collision.contacts[0])}");
         
         if (_canStabInCurrentLoop && !isCollisionPopable && collision.contacts.Length > 0 && DidStabContactPoint(collision.contacts[0]))
         {
-            Debug.Log("Stab!");
+            //Debug.Log("Stab!");
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.isKinematic = true;

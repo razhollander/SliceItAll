@@ -21,8 +21,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private void BindCommands()
         {
             Container.BindFactory<GameBoostModeChangedCommandData, GameBoostModeChangedCommand, GameBoostModeChangedCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<SpaceButtonClickedCommand, SpaceButtonClickedCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<SpaceButtonReleasedCommand, SpaceButtonReleasedCommand.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<JumpInputInvokedCommand, JumpInputInvokedCommand.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<ShootInputInvokedCommand, ShootInputInvokedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<PoolData, AsteroidsPool, AsteroidsPool.Factory>().AsSingle().NonLazy();
             Container.BindFactory<MainGameStateEnterData, EnterMainGameStateCommand, EnterMainGameStateCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ExitMainGameStateCommand, ExitMainGameStateCommand.Factory>().AsSingle().NonLazy();
@@ -38,6 +38,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 
         private void BindModules()
         {
+            Container.BindInterfacesTo<ArrowModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<MainGameUiModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<PlayerSpaceshipModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<FloorModule>().AsSingle().NonLazy();
@@ -49,7 +50,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 
         private void BindServices()
         {
-            Container.BindInterfacesTo<GameKeyboardInputsModule>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<GameInputActionsModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameSpeedService>().AsSingle().NonLazy();
         }
     }

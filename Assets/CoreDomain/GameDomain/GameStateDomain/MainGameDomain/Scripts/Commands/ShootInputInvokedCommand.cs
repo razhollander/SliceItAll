@@ -3,11 +3,11 @@ using Cysharp.Threading.Tasks;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Commands
 {
-    public class SpaceButtonReleasedCommand : CommandSync<SpaceButtonReleasedCommand>
+    public class ShootInputInvokedCommand : CommandSync<ShootInputInvokedCommand>
     {
         private readonly GameBoostModeChangedCommand.Factory _gameBoostModeChangedCommand;
 
-        private SpaceButtonReleasedCommand(GameBoostModeChangedCommand.Factory gameBoostModeChangedCommand)
+        private ShootInputInvokedCommand(GameBoostModeChangedCommand.Factory gameBoostModeChangedCommand)
         {
             _gameBoostModeChangedCommand = gameBoostModeChangedCommand;
         }

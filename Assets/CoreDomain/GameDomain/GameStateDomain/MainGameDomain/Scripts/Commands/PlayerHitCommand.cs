@@ -9,7 +9,7 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
 {
     private readonly IAsteroidsModule _asteroidsModule;
     private readonly IFloorModule _floorModule;
-    private readonly IGameKeyboardInputsModule _keyboardInputsModule;
+    private readonly IGameInputActionsModule _inputActionsModule;
     private readonly IHighScoreModule _highScoreModule;
     private readonly IScoreModule _scoreModule;
     private readonly IPlayerSpaceshipModule _playerSpaceshipModule;
@@ -20,7 +20,7 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
     public PlayerHitCommand(
         IAsteroidsModule asteroidsModule,
         IFloorModule floorModule,
-        IGameKeyboardInputsModule keyboardInputsModule,
+        IGameInputActionsModule inputActionsModule,
         IHighScoreModule highScoreModule,
         IScoreModule scoreModule,
         IPlayerSpaceshipModule playerSpaceshipModule,
@@ -30,7 +30,7 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
     {
         _asteroidsModule = asteroidsModule;
         _floorModule = floorModule;
-        _keyboardInputsModule = keyboardInputsModule;
+        _inputActionsModule = inputActionsModule;
         _highScoreModule = highScoreModule;
         _scoreModule = scoreModule;
         _playerSpaceshipModule = playerSpaceshipModule;
@@ -41,7 +41,7 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
     
     public override void Execute()
     {
-        _keyboardInputsModule.DisableInputs();
+        _inputActionsModule.DisableInputs();
         _asteroidsModule.StopSpawning();
         _floorModule.StopMovement();
         _scoreModule.StopCountingScore();
