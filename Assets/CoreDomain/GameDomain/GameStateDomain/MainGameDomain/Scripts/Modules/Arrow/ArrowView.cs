@@ -2,6 +2,8 @@ using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 
 public class ArrowView : MonoBehaviour
 {
@@ -20,6 +22,8 @@ public class ArrowView : MonoBehaviour
     //[SerializeField] private float _minimalStabAngle = 45;
     private float _prevZRotation;
     private bool _canStabInCurrentLoop = false;
+    private TweenerCore<float,float,FloatOptions> _spinBeforeShootTween;
+    private bool _isCurrentlyStabbing = false;
     
     private void Awake()
     {
@@ -41,6 +45,7 @@ public class ArrowView : MonoBehaviour
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.isKinematic = true;
             _canStabInCurrentLoop = false;
+            _isCurrentlyStabbing = true;
         }
     }
 
@@ -75,7 +80,7 @@ public class ArrowView : MonoBehaviour
             Jump();
         }
         
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (!_isCurrentlyStabbing && Input.GetKeyDown(KeyCode.LeftControl))
         {
             Shoot().Forget();
         }
@@ -86,16 +91,40 @@ public class ArrowView : MonoBehaviour
         _rigidbody.angularVelocity = Vector3.zero;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.useGravity = false;
-        var shootVector = Quaternion.Euler(0, 0, _shootAngleRelativeToFloor) *Vector3.right;
+        
+        // not working
+        var currentRotationAngle = ConvertAngleToBeBetween0To360(_rigidbody.rotation.eulerAngles.z);
+        var loopAnimationAngles = currentRotationAngle;
 
-        await DOTween.To(
-            () => ConvertAngleToBeBetween0To360(_rigidbody.rotation.eulerAngles.z)-_shootAngleRelativeToFloor,
-            x => _rigidbody.rotation = ConvertAngleBetween0To360ToQuaternion(x+_shootAngleRelativeToFloor),
+        if (currentRotationAngle <180 && currentRotationAngle > _shootAngleRelativeToFloor)
+        {
+            loopAnimationAngles += 360;
+        }
+        
+        _rigidbody.rotation = Quaternion.Euler(0, 0, loopAnimationAngles);
+
+        _spinBeforeShootTween?.Kill();
+        _spinBeforeShootTween =  DOTween.To(
+            () => loopAnimationAngles-_shootAngleRelativeToFloor,
+            x =>
+            {
+                loopAnimationAngles = x + _shootAngleRelativeToFloor;
+                _rigidbody.rotation = Quaternion.Euler(0, 0, loopAnimationAngles);
+            },
             0, _shootRotationDuration);
-        //await _rigidbody.rotation = shootVector, _shootRotationDuration);
-        _rigidbody.useGravity = true;
-        _rigidbody.angularVelocity = Vector3.zero;
-        _rigidbody.velocity = shootVector * _shootVelocity;
+
+        _spinBeforeShootTween.OnComplete(() =>
+        {
+            Debug.Log("finishedTween");
+
+            _rigidbody.useGravity = true;
+            _rigidbody.angularVelocity = Vector3.zero;
+            var shootVector = Quaternion.Euler(0, 0, _shootAngleRelativeToFloor) * Vector3.right;
+            _rigidbody.velocity = shootVector * _shootVelocity;
+        });
+        
+        await _spinBeforeShootTween;
+    
     }
 
     private Quaternion ConvertAngleBetween0To360ToQuaternion(float angle)
@@ -140,7 +169,11 @@ public class ArrowView : MonoBehaviour
 
     private void Jump()
     {
+        _spinBeforeShootTween?.Kill();
         _rigidbody.isKinematic = false;
+        _rigidbody.useGravity = true;
+        _isCurrentlyStabbing = false;
+        
         SetJumpVelocity();
         SetJumpAngularVelocity();
     }
