@@ -44,7 +44,6 @@ public class BeginGameCommand : CommandSync<BeginGameCommand>
 
     public override void Execute()
     {
-        _gameInputActionsModule.EnableInputs();
         _floorModule.StartMovement();
         _asteroidsModule.StartSpawning();
         _scoreModule.StartCountingScore();

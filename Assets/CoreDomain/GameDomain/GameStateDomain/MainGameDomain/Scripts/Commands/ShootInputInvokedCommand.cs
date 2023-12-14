@@ -5,16 +5,16 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Commands
 {
     public class ShootInputInvokedCommand : CommandSync<ShootInputInvokedCommand>
     {
-        private readonly GameBoostModeChangedCommand.Factory _gameBoostModeChangedCommand;
+        private readonly IArrowModule _arrowModule;
 
-        private ShootInputInvokedCommand(GameBoostModeChangedCommand.Factory gameBoostModeChangedCommand)
+        private ShootInputInvokedCommand(IArrowModule arrowModule)
         {
-            _gameBoostModeChangedCommand = gameBoostModeChangedCommand;
+            _arrowModule = arrowModule;
         }
 
         public override void Execute()
         {
-            _gameBoostModeChangedCommand.Create(new GameBoostModeChangedCommandData(false)).Execute().Forget();
+            _arrowModule.TryShoot();
         }
     }
 }

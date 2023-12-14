@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeyboardInputsModule;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.PlayerSpaceship;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score;
@@ -24,6 +25,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private readonly IScoreModule _scoreModule;
         private readonly BeginGameCommand.Factory _beginGameCommand;
         private readonly IArrowModule _arrowModule;
+        private readonly IGameInputActionsModule _gameInputActionsModule;
 
         public EnterMainGameStateCommand(
             MainGameStateEnterData stateEnterData,
@@ -36,7 +38,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             IAsteroidsModule asteroidsModule,
             IScoreModule scoreModule,
             BeginGameCommand.Factory beginGameCommand,
-            IArrowModule arrowModule)
+            IArrowModule arrowModule,
+            IGameInputActionsModule gameInputActionsModule)
         {
             _stateEnterData = stateEnterData;
             _mainGameUiModule = mainGameUiModule;
@@ -48,6 +51,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             _scoreModule = scoreModule;
             _beginGameCommand = beginGameCommand;
             _arrowModule = arrowModule;
+            _gameInputActionsModule = gameInputActionsModule;
             _audioService = audioService;
         }
 
@@ -67,11 +71,12 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 
         private void FindGameObjects()
         {
-            _arrowModule.FindArrow();
+            _arrowModule.SetupArrow();
         }
 
         private void SetupModules()
         {
+            _gameInputActionsModule.EnableInputs();
             _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
             //_cameraService.SetCameraZoom(GameCameraType.World, true);
             //_asteroidsModule.SetAsteroidsPassedZPosition(_playerSpaceshipModule.PlayerSpaceShipTransform.position.z);

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public interface IArrowModule
 {
-    void FindArrow();
+    void SetupArrow();
     Transform ArrowTransform { get; }
+    void TryStabContactPoint(ContactPoint collisionContact);
+    void Jump();
+    void TryShoot();
 }

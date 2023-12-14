@@ -6,6 +6,8 @@ namespace CoreDomain.Services
     public class UpdateSubscriptionService : MonoBehaviour, IUpdateSubscriptionService
     {
         private List<IUpdatable> _updatablesList = new ();
+        private List<IFixedUpdatable> _fixedUpdatablesList = new ();
+        
         
         private void Update()
         {
@@ -20,6 +22,22 @@ namespace CoreDomain.Services
             {
                 var updated = _updatablesList[index];
                 updated?.ManagedUpdate();
+            }
+        }
+        
+        private void FixedUpdate()
+        {
+            var numValues = _fixedUpdatablesList.Count;
+
+            if (numValues <= 0)
+            {
+                return;
+            }
+
+            for (var index = numValues - 1; index > -1; index--)
+            {
+                var updated = _fixedUpdatablesList[index];
+                updated?.ManagedFixedUpdate();
             }
         }
         
@@ -41,6 +59,26 @@ namespace CoreDomain.Services
             }
 
             _updatablesList.Remove(updatable);
+        }
+        
+        public void RegisterFixedUpdatable(IFixedUpdatable updatable)
+        {
+            if (_fixedUpdatablesList == null || _fixedUpdatablesList.Contains(updatable))
+            {
+                return;
+            }
+
+            _fixedUpdatablesList.Add(updatable);
+        }
+
+        public void UnregisterFixedUpdatable(IFixedUpdatable updatable)
+        {
+            if (_fixedUpdatablesList == null || !_fixedUpdatablesList.Contains(updatable))
+            {
+                return;
+            }
+
+            _fixedUpdatablesList.Remove(updatable);
         }
     }
 }

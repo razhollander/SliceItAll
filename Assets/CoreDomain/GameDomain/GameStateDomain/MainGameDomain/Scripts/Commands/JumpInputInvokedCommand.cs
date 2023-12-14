@@ -7,16 +7,16 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Commands
 {
     public class JumpInputInvokedCommand : CommandSync<JumpInputInvokedCommand>
     {
-        private readonly GameBoostModeChangedCommand.Factory _gameBoostModeChangedCommand;
+        private readonly IArrowModule _arrowModule;
 
-        private JumpInputInvokedCommand(GameBoostModeChangedCommand.Factory gameBoostModeChangedCommand)
+        private JumpInputInvokedCommand(IArrowModule arrowModule)
         {
-            _gameBoostModeChangedCommand = gameBoostModeChangedCommand;
+            _arrowModule = arrowModule;
         }
 
         public override void Execute()
         {
-            _gameBoostModeChangedCommand.Create(new GameBoostModeChangedCommandData(true)).Execute().Forget();
+            _arrowModule.Jump();
         }
     }
 }

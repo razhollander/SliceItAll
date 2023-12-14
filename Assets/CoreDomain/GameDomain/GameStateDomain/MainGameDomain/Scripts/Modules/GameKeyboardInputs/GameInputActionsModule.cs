@@ -1,4 +1,5 @@
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Commands;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeyboardInputsModule
@@ -21,23 +22,27 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeybo
 
         public void EnableInputs()
         {
+            Debug.Log("EnableInputs");
             _gameInputActions.MainGame.Jump.started += OnJumpInput;
-            _gameInputActions.MainGame.Shoot.started += OnShootInput;
+            _gameInputActions.MainGame.Shoot.performed += OnShootInput;
         }
 
         public void DisableInputs()
         {
             _gameInputActions.MainGame.Jump.started -= OnJumpInput;
-            _gameInputActions.MainGame.Shoot.started -= OnShootInput;
+            _gameInputActions.MainGame.Shoot.performed -= OnShootInput;
         }
         
         private void OnShootInput(InputAction.CallbackContext obj)
         {
+            Debug.Log("OnShootInput");
+
             _shootInputInvokedCommandFactory.Create().Execute();
         }
 
         private void OnJumpInput(InputAction.CallbackContext context)
         {
+            Debug.Log("OnJumpInput");
             _jumpInputInvokedCommandFactory.Create().Execute();
         }
     }
