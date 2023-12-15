@@ -16,18 +16,23 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
     {
         var isCollisionPopable = _collision.transform.GetComponent<PopableView>() != null;
 
-        if (isCollisionPopable) return;
-
-        if (_collision.contacts.Length > 0)
+        if (isCollisionPopable)
         {
-            _arrowModule.TryStabContactPoint(_collision.contacts[0]);
+            // arrow white effect
         }
-            
-        var isCollisionWithLava = _collision.transform.GetComponent<LavaView>() != null;
-        
-        if (isCollisionWithLava)
+        else
         {
-            // game over
+            if (_collision.contacts.Length > 0)
+            {
+                _arrowModule.TryStabContactPoint(_collision.contacts[0]);
+            }
+            
+            var isCollisionWithLava = _collision.transform.GetComponent<LavaView>() != null;
+        
+            if (isCollisionWithLava)
+            {
+                // game over
+            }
         }
     }
 }

@@ -4,18 +4,17 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
 {
     public class MainGameUiCreator
     {
-        private const string MainGameUiAssetName = "MainGameUiCanvas";
-        private const string MainGameUiAssetBundlePath = "coredomain/gamedomain/gamestatedomain/maingamedomain/maingameui";
-        private readonly IAssetBundleLoaderService _assetBundleLoaderService;
+        private readonly IResourcesLoaderService _resourcesLoaderService;
+        private const string MainGameUiAssetPath = @"UI\MainGameUiCanvas";
 
-        public MainGameUiCreator(IAssetBundleLoaderService assetBundleLoaderService)
+        public MainGameUiCreator(IResourcesLoaderService resourcesLoaderService)
         {
-            _assetBundleLoaderService = assetBundleLoaderService;
+            _resourcesLoaderService = resourcesLoaderService;
         }
 
         public MainGameUiView CreateMainGameUi()
         {
-            return _assetBundleLoaderService.InstantiateAssetFromBundle<MainGameUiView>(MainGameUiAssetBundlePath, MainGameUiAssetName);
+            return _resourcesLoaderService.LoadAndInstantiate<MainGameUiView>(MainGameUiAssetPath);
         }
     }
 }

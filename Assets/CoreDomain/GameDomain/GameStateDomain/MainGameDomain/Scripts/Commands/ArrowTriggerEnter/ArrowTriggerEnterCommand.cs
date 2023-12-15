@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class ArrowTriggerEnterCommand : CommandSyncOneParameter<ArrowTriggerEnterCommandData, ArrowTriggerEnterCommand>
 {
+    private readonly IFXModule _fxModule;
     private readonly Collider _collider;
 
-    public ArrowTriggerEnterCommand(ArrowTriggerEnterCommandData commandData)
+    public ArrowTriggerEnterCommand(ArrowTriggerEnterCommandData commandData, IFXModule fxModule)
     {
+        _fxModule = fxModule;
         _collider = commandData.Collider;
     }
     
@@ -17,6 +19,7 @@ public class ArrowTriggerEnterCommand : CommandSyncOneParameter<ArrowTriggerEnte
         if (otherPopableView != null)
         {
             otherPopableView.Pop();
+            _fxModule.ShowScoreGainedFx(otherPopableView.transform.position, 1);
         }
     }
 }

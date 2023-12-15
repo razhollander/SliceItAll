@@ -17,6 +17,5 @@ public class TimePlayingChangedCommand : CommandSyncOneParameter<int, TimePlayin
     
     public override void Execute()
     {
-        _mainGameUiModule.UpdateTimePlaying(_timePlaying);
     }
 }

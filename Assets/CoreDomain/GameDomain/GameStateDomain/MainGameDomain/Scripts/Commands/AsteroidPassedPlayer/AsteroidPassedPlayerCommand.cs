@@ -24,7 +24,6 @@ public class AsteroidPassedPlayerCommand : CommandSyncOneParameter<AsteroidPasse
     public override void Execute()
     {
         _asteroidsModule.SetAsteroidPassedPlayer(_commandData.AsteroidId);
-        _mainGameUiModule.UpdateAsteroidsPassedCountable(_asteroidsModule.AsteroidsPassedPlayerCounter);
         _scoreChangedCommand.Create(new ScoreChangedCommandData(_asteroidsModule.AsteroidScoreGainedWhenPassedPlayer)).Execute();
     }
 }

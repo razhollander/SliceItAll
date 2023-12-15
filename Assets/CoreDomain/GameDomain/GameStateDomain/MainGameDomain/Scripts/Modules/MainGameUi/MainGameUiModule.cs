@@ -1,83 +1,62 @@
 using CoreDomain.Services;
+using UnityEngine;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi
 {
     public class MainGameUiModule : IMainGameUiModule
     {
-        private readonly BeginGameCommand.Factory _beginGameCommand;
+        private readonly StartLevelCommand.Factory _beginGameCommand;
         private readonly ResetGameCommand.Factory _resetGameCommand;
         private readonly MainGameUiCreator _creator;
-        private readonly MainGameUiViewModule _viewModule;
+        private MainGameUiView _mainGameView;
 
-        public MainGameUiModule(IAssetBundleLoaderService assetBundleLoaderService, BeginGameCommand.Factory beginGameCommand, ResetGameCommand.Factory resetGameCommand)
+        public MainGameUiModule(IResourcesLoaderService resourcesLoaderService, StartLevelCommand.Factory beginGameCommand, ResetGameCommand.Factory resetGameCommand)
         {
             _beginGameCommand = beginGameCommand;
             _resetGameCommand = resetGameCommand;
-            _creator = new MainGameUiCreator(assetBundleLoaderService);
-            _viewModule = new MainGameUiViewModule();
+            _creator = new MainGameUiCreator(resourcesLoaderService);
         }
 
         public void UpdateScore(int newScore)
         {
-            _viewModule.UpdateScore(newScore);
+            _mainGameView.UpdateScore(newScore);
         }
 
         public void CreateMainGameUi()
         {
-            var mainGameUiView = _creator.CreateMainGameUi();
-            mainGameUiView.Setup(OnPlayAgainClicked);
-            _viewModule.SetupMainGameUiView(mainGameUiView);
+            _mainGameView = _creator.CreateMainGameUi();
         }
 
-        public void ShowGameOverPanel(int score,
-            int timePlayed,
-            int asteroidsPassed,
-            bool isNewHighScore,
-            int highScore)
+        public void ShowGameOverPanel()
         {
-            _viewModule.ShowGameOverPanel(score, timePlayed, asteroidsPassed, isNewHighScore, highScore);
+            _mainGameView.ShowGameOverPanel();
         }
         
         public void HideGameOverPanel()
         {
-            _viewModule.HideGameOverPanel();
+            _mainGameView.HideGameOverPanel();
         }
 
         public void Dispose()
         {
-            _viewModule.DestroyMainGameUiView();
-        }
-
-        public void UpdateTimePlaying(int timePlaying)
-        {
-            _viewModule.UpdateTimePlaying(timePlaying);
+            Object.Destroy(_mainGameView.gameObject);
         }
         
-        public void UpdateAsteroidsPassedCountable(int asteroidsPassed)
+        public void SwitchToInGameView(int score)
         {
-            _viewModule.UpdateAsteroidsPassedCountable(asteroidsPassed);
-        }
-
-        public void UpdateHighScore(int highScore, bool isImmediate = false)
-        {
-            _viewModule.UpdateHighScore(highScore, isImmediate);
+            _mainGameView.SwitchToInGameView();
+            _mainGameView.SetStartingValues(score);
         }
         
-        public void SwitchToInGameView(int highScore, int score, int timePlaying, int asteroidPassed)
+        public void SwitchToBeforeGameView(int currentLevel)
         {
-            _viewModule.SwitchToInGameView();
-            _viewModule.SetStartingValues(highScore, score, timePlaying, asteroidPassed);
-        }
-        
-        public void SwitchToBeforeGameView()
-        {
-            _viewModule.SwitchToBeforeGameView();
+            _mainGameView.SwitchToBeforeGameView(currentLevel);
         }
         
         private void OnPlayAgainClicked()
         {
-            _resetGameCommand.Create().Execute();
-            _beginGameCommand.Create().Execute();
+            //_resetGameCommand.Create().Execute();
+            //_beginGameCommand.Create().Execute();
         }
     }
 }

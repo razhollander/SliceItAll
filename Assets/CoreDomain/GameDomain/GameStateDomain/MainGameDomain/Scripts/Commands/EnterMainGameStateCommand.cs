@@ -23,9 +23,11 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private readonly ICameraService _cameraService;
         private readonly IAsteroidsModule _asteroidsModule;
         private readonly IScoreModule _scoreModule;
-        private readonly BeginGameCommand.Factory _beginGameCommand;
+        private readonly StartLevelCommand.Factory _startLevelCommand;
         private readonly IArrowModule _arrowModule;
         private readonly IGameInputActionsModule _gameInputActionsModule;
+        private readonly ILevelsService _levelsService;
+        private readonly ILevelTrackModule _levelTrackModule;
 
         public EnterMainGameStateCommand(
             MainGameStateEnterData stateEnterData,
@@ -37,9 +39,11 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             ICameraService cameraService,
             IAsteroidsModule asteroidsModule,
             IScoreModule scoreModule,
-            BeginGameCommand.Factory beginGameCommand,
+            StartLevelCommand.Factory startLevelCommand,
             IArrowModule arrowModule,
-            IGameInputActionsModule gameInputActionsModule)
+            IGameInputActionsModule gameInputActionsModule,
+            ILevelsService levelsService,
+            ILevelTrackModule levelTrackModule)
         {
             _stateEnterData = stateEnterData;
             _mainGameUiModule = mainGameUiModule;
@@ -49,58 +53,40 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             _cameraService = cameraService;
             _asteroidsModule = asteroidsModule;
             _scoreModule = scoreModule;
-            _beginGameCommand = beginGameCommand;
+            _startLevelCommand = startLevelCommand;
             _arrowModule = arrowModule;
             _gameInputActionsModule = gameInputActionsModule;
+            _levelsService = levelsService;
+            _levelTrackModule = levelTrackModule;
             _audioService = audioService;
         }
 
         public override async UniTask Execute()
         {
-            //LoadData();
-            //CreateGameObjects();
-            FindGameObjects();
+            LoadData();
+            CreateGameObjects();
             SetupModules();
             
             _audioService.PlayAudio(AudioClipName.ThemeSongName, AudioChannelType.Master, AudioPlayType.Loop);
-
-            //await WaitForAnyKeyPressed();
-
-            //_beginGameCommand.Create().Execute();
+            _startLevelCommand.Create(new StartLevelCommandData(_levelsService.LastSavedLevelNumber)).Execute().Forget();
         }
-
-        private void FindGameObjects()
-        {
-            _arrowModule.SetupArrow();
-        }
-
+        
         private void SetupModules()
         {
-            _gameInputActionsModule.EnableInputs();
+            _arrowModule.SetupArrow();
             _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
-            //_cameraService.SetCameraZoom(GameCameraType.World, true);
-            //_asteroidsModule.SetAsteroidsPassedZPosition(_playerSpaceshipModule.PlayerSpaceShipTransform.position.z);
-            //_mainGameUiModule.SwitchToBeforeGameView();
-            //_playerSpaceshipModule.SetXMovementBounds(_floorModule.FloorHalfWidth);
+            _gameInputActionsModule.EnableInputs();
         }
 
         private void CreateGameObjects()
         {
             _mainGameUiModule.CreateMainGameUi();
-            _playerSpaceshipModule.CreatePlayerSpaceship();
-            _floorModule.CreateFloor();
         }
 
         private void LoadData()
         {
-            _gameSpeedService.LoadGameSpeedData();
-            _asteroidsModule.LoadData();
+            _levelsService.LoadLevelsData();
             _scoreModule.LoadScoreConfig();
-        }
-
-        private static async Task WaitForAnyKeyPressed()
-        {
-            await Observable.EveryUpdate().Where(_ => Input.anyKeyDown).First().ToTask();
         }
     }
 }

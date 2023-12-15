@@ -24,13 +24,14 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindFactory<JumpInputInvokedCommand, JumpInputInvokedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ShootInputInvokedCommand, ShootInputInvokedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<PoolData, AsteroidsPool, AsteroidsPool.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<PoolData, ScoreGainedFXPool, ScoreGainedFXPool.Factory>().AsSingle().NonLazy();
             Container.BindFactory<MainGameStateEnterData, EnterMainGameStateCommand, EnterMainGameStateCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ExitMainGameStateCommand, ExitMainGameStateCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<SpawnAsteroidCommand, SpawnAsteroidCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<float, ArrowKeysInputChangedCommand, ArrowKeysInputChangedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ScoreChangedCommandData, ScoreChangedCommand, ScoreChangedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<int, TimePlayingChangedCommand, TimePlayingChangedCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<BeginGameCommand, BeginGameCommand.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<StartLevelCommandData, StartLevelCommand, StartLevelCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<PlayerHitCommand, PlayerHitCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ResetGameCommand, ResetGameCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<AsteroidPassedPlayerCommandData, AsteroidPassedPlayerCommand, AsteroidPassedPlayerCommand.Factory>().AsSingle().NonLazy();
@@ -48,12 +49,15 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindInterfacesTo<AsteroidsModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<TimePlayingModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<HighScoreModule>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<LevelTrackModule>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<FXModule>().AsSingle().NonLazy();
         }
 
         private void BindServices()
         {
             Container.BindInterfacesTo<GameInputActionsModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<GameSpeedService>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<LevelsService>().AsSingle().NonLazy();
         }
     }
 }

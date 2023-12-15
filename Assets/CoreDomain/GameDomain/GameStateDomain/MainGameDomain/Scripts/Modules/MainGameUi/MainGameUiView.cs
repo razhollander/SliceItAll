@@ -1,45 +1,28 @@
 using System;
 using CoreDomain.Scripts.Utils.Command;
 using UnityEngine;
+using TMPro;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi
 {
     public class MainGameUiView : MonoBehaviour
     {
+        private const string CurrentLevelTextFormat = "Level {0}";
+        
         [SerializeField] private Countable _scoreCountable;
-        [SerializeField] private Countable _highScoreCountable;
-        [SerializeField] private Countable _timePlayingCountable;
-        [SerializeField] private Countable _asteroidsPassedCountable;
+        [SerializeField] private TextMeshProUGUI _currentLevelText;
         [SerializeField] private GameObject _inGamePanel;
         [SerializeField] private GameObject _beforeGamePanel;
-        [SerializeField] private GameOverUiView _gameOverView;
-        
-        private Action _onPlayAgainClicked;
+        [SerializeField] private GameObject _gameOverPanel;
 
-        public void Setup(Action onPlayAgainClicked)
+        public void ShowGameOverPanel()
         {
-            _onPlayAgainClicked = onPlayAgainClicked;
-        }
-
-        public void ShowGameOverPanel(int score,
-            int timePlayed,
-            int asteroidsPassed,
-            bool isNewHighScore,
-            int highScore)
-        {
-            _gameOverView.SetAllTexts(score, timePlayed, asteroidsPassed, isNewHighScore, highScore);
-            _gameOverView.gameObject.SetActive(true);
+            _gameOverPanel.gameObject.SetActive(true);
         }
         
         public void HideGameOverPanel()
         {
-            _gameOverView.gameObject.SetActive(false);
-        }
-        
-        // called from button clicked
-        public void OnPlayAgainClicked()
-        {
-            _onPlayAgainClicked?.Invoke();
+            _gameOverPanel.gameObject.SetActive(false);
         }
 
         public void UpdateScore(int newScore)
@@ -53,32 +36,16 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
             _beforeGamePanel.SetActive(false);
         }
         
-        public void SwitchToBeforeGameView()
+        public void SwitchToBeforeGameView(int currentLevel)
         {
-            _inGamePanel.SetActive(false);
+            _currentLevelText.text = string.Format(CurrentLevelTextFormat, currentLevel);
             _beforeGamePanel.SetActive(true);
+            _inGamePanel.SetActive(false);
+            _gameOverPanel.SetActive(false);
         }
 
-        public void UpdateTimePlaying(int timePlaying)
+        public void SetStartingValues(int score)
         {
-            _timePlayingCountable.SetNumber(timePlaying);
-        }  
-        
-        public void UpdateAsteroidsPassedCountable(int asteroidsPassed)
-        {
-            _asteroidsPassedCountable.SetNumber(asteroidsPassed);
-        }
-
-        public void UpdateHighScore(int highScore, bool isImmediate)
-        {
-            _highScoreCountable.SetNumber(highScore, isImmediate);
-        }
-
-        public void SetStartingValues(int highScore, int score, int timePlaying, int asteroidPassed)
-        {
-            _highScoreCountable.SetStartingValue(highScore);
-            _asteroidsPassedCountable.SetStartingValue(asteroidPassed);
-            _timePlayingCountable.SetStartingValue(timePlaying);
             _scoreCountable.SetStartingValue(score);
         }
     }

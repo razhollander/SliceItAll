@@ -55,7 +55,7 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
         {
             _highScoreModule.SaveHighScore(_scoreModule.PlayerScore);
         }
-        
-        _mainGameUiModule.ShowGameOverPanel(_scoreModule.PlayerScore, _timePlayingModule.TimePlaying, _asteroidsModule.AsteroidsPassedPlayerCounter, isNewHighScore, _highScoreModule.LastHighScore);
+
+        _mainGameUiModule.ShowGameOverPanel();
     }
 }

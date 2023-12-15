@@ -19,6 +19,7 @@ namespace CoreDomain
             Container.BindInterfacesTo<CameraService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<SceneLoaderService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<AssetBundleLoaderService>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<ResourcesLoaderService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<StateMachineService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<UpdateSubscriptionService>().FromInstance(_updateSubscriptionService).AsSingle().NonLazy();
             Container.BindInterfacesTo<AudioService>().FromInstance(_audioService).AsSingle().NonLazy();

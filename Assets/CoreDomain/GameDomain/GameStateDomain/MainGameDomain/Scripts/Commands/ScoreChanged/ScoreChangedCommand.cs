@@ -25,10 +25,5 @@ public class ScoreChangedCommand : CommandSyncOneParameter<ScoreChangedCommandDa
     {
         _scoreModule.AddScore(_commandData.ScoreAdded);
         _mainGameUiModule.UpdateScore(_scoreModule.PlayerScore);
-
-        if (_scoreModule.PlayerScore > _highScoreModule.LastHighScore)
-        {
-            _mainGameUiModule.UpdateHighScore(_scoreModule.PlayerScore, false);
-        }
     }
 }
