@@ -55,7 +55,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             CreateGameObjects();
             SetupModules();
             
-            _audioService.PlayAudio(AudioClipName.ThemeSongName, AudioChannelType.Master, AudioPlayType.Loop);
+            _audioService.PlayAudio(AudioClipName.MainGameBGMusic, AudioChannelType.Master, AudioPlayType.Loop);
             _startLevelCommand.Create(new StartLevelCommandData(_levelsService.LastSavedLevelNumber)).Execute().Forget();
         }
         

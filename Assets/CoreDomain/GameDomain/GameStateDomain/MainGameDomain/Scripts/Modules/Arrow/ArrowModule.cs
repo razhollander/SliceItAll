@@ -13,6 +13,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     private readonly ArrowCollisionEnterCommand.Factory _arrowCollisionEnterCommand;
     private readonly ArrowTriggerEnterCommand.Factory _arrowTriggerEnterCommand;
     private readonly ArrowParticleCollisionEnterCommand.Factory _arrowParticleCollisionEnterCommand;
+    private readonly IAudioService _audioService;
     public Transform ArrowTransform => _arrowView.transform;
 
     private ArrowView _arrowView;
@@ -36,12 +37,14 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
 
     public ArrowModule(IUpdateSubscriptionService updateSubscriptionService, ArrowCollisionEnterCommand.Factory arrowCollisionEnterCommand,
         ArrowTriggerEnterCommand.Factory arrowTriggerEnterCommand,
-        ArrowParticleCollisionEnterCommand.Factory arrowParticleCollisionEnterCommand)
+        ArrowParticleCollisionEnterCommand.Factory arrowParticleCollisionEnterCommand,
+        IAudioService audioService)
     {
         _updateSubscriptionService = updateSubscriptionService;
         _arrowCollisionEnterCommand = arrowCollisionEnterCommand;
         _arrowTriggerEnterCommand = arrowTriggerEnterCommand;
         _arrowParticleCollisionEnterCommand = arrowParticleCollisionEnterCommand;
+        _audioService = audioService;
         _shootVector = Quaternion.Euler(0, 0, _shootAngleRelativeToFloor) * Vector3.right * _shootVelocity;
         _jumpVector = Quaternion.Euler(0, 0, _jumpAngleRelativeToFloor) * Vector3.right * _jumpForce;
     }
@@ -149,16 +152,19 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
         _arrowView.SetZAngularVelocity(_startRotationLoopSpeed);
     }
 
-    public void TryStabContactPoint(ContactPoint collisionContact)
+    public bool TryStabContactPoint(ContactPoint collisionContact)
     {
         if (!_canStabInCurrentLoop || !DidStabContactPoint(collisionContact))
         {
-            return;
+            return false;
         }
 
+        _audioService.PlayAudio(AudioClipName.Stab, AudioChannelType.Fx, AudioPlayType.OneShot);
         _arrowView.FreezeMovement(false, true);
         _isCurrentlyStabbing = true;
         _canStabInCurrentLoop = false;
+
+        return true;
     }
     
     private void OnArrowCollisionEnter(Collision collision)

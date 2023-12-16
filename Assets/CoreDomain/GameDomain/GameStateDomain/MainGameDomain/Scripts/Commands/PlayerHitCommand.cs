@@ -46,7 +46,7 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
         _floorModule.StopMovement();
         _playerSpaceshipModule.EnableSpaceShipMovement(false);
         _timePlayingModule.StopTimer();
-        _audioService.PlayAudio(AudioClipName.HitSoundFXName, AudioChannelType.Fx, AudioPlayType.OneShot);
+        _audioService.PlayAudio(AudioClipName.Stab, AudioChannelType.Fx, AudioPlayType.OneShot);
 
         bool isNewHighScore = _highScoreModule.LastHighScore < _scoreModule.PlayerScore;
 
