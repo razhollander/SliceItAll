@@ -25,12 +25,13 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
     {
         var isCollisionPopable = _collision.transform.GetComponent<PopableView>() != null;
         var didStab = false;
-        
+        Debug.Log("Collision Enter!");
         if (!isCollisionPopable)
         {
             if (_collision.contacts.Length > 0)
             {
                 didStab = _arrowModule.TryStabContactPoint(_collision.contacts[0]);
+                Debug.Log("TryStab success: "+didStab);
             }
 
             if (didStab)

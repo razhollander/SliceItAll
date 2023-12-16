@@ -34,7 +34,6 @@ public class ScoreGainedFXView : MonoBehaviour, IPoolable
     
     public async UniTask DoShowAnimation()
     {
-        //await transform.DOPunchScale(Vector3.one * _scale, _enterDurationSeconds, _vibration, _elasatic);
         await transform.DOScale(_scale, _enterDurationSeconds).SetEase(_enterEase);
         await UniTask.Delay((int) _idleDurationSeconds * 1000);
         await transform.DOScale(Vector3.zero, _exitDurationSeconds).SetEase(_exitEase);

@@ -33,7 +33,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 
         private void OnApplicationQuit()
         {
-            ExitState().Forget();
+            //ExitState().Forget();
         }
     }
 }

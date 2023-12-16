@@ -25,7 +25,7 @@ public class ArrowTriggerEnterCommand : CommandSyncOneParameter<ArrowTriggerEnte
         {
             otherPopableView.Pop();
             _audioService.PlayAudio(AudioClipName.BalloonPop, AudioChannelType.Fx, AudioPlayType.OneShot);
-            _fxModule.ShowScoreGainedFx(otherPopableView.transform.position, 1);
+            _fxModule.ShowScoreGainedFx(otherPopableView.GetCenterPoint(), 1);
             _scoreChangedCommand.Create(new ScoreChangedCommandData(1)).Execute();
         }
     }

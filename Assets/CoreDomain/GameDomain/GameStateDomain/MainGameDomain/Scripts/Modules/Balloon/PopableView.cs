@@ -5,4 +5,5 @@ using UnityEngine;
 public abstract class PopableView : MonoBehaviour
 {
     public abstract void Pop();
+    public abstract Vector3 GetCenterPoint();
 }
