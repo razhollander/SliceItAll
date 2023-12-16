@@ -10,4 +10,5 @@ public interface IArrowModule
     void Dispose();
     void LoadArrowMovementData();
     void RegisterListeners();
+    void EnableThruster(bool isEnabled);
 }

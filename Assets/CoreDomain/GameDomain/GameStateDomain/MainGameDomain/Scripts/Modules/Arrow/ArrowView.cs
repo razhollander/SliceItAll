@@ -5,12 +5,13 @@ using UnityEngine;
 public class ArrowView : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private ParticleSystem _thrusterParticleSystem;
     
     private Action<Collision> _onCollisionEnter;
     private Action<Collider> _onTriggerEnter;
     private Action<ParticleSystem> _onParticleCollisionEnter;
 
-    public void Setup(Action<Collision> onCollisionEnter, Action<Collider> onTriggerEnter, float angularDrag, Action<ParticleSystem> onParticleCollisionEnter)
+    public void Setup(Action<Collision> onCollisionEnter, Action<Collider> onTriggerEnter, Action<ParticleSystem> onParticleCollisionEnter, float angularDrag)
     {
         _onCollisionEnter = onCollisionEnter;
         _onTriggerEnter = onTriggerEnter;
@@ -83,5 +84,17 @@ public class ArrowView : MonoBehaviour
     public void SetIsKinematic(bool isEnabled)
     {
         _rigidbody.isKinematic = isEnabled;
+    }  
+    
+    public void EnableThruster(bool isEnabled)
+    {
+        if (isEnabled)
+        {
+            _thrusterParticleSystem.Play();
+        }
+        else
+        {
+            _thrusterParticleSystem.Stop();
+        }
     }
 }

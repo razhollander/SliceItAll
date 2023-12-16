@@ -52,12 +52,17 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
         _updateSubscriptionService.RegisterFixedUpdatable(this);
     }
 
+    public void EnableThruster(bool isEnabled)
+    {
+        _arrowView.EnableThruster(isEnabled);
+    }
+
     public void CreateArrow()
     {
         _arrowView = _arrowCreator.CreateArrow();
         _arrowView.transform.position = new Vector3(0, 10, 0);
         _arrowView.transform.rotation = Quaternion.Euler(0, 0, -50);  
-        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, _arrowMovementData.AngularDrag, OnArrowParticleCollisionEnter);
+        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, OnArrowParticleCollisionEnter, _arrowMovementData.AngularDrag);
     }
 
     public void Dispose()
@@ -94,6 +99,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
 
         _spinBeforeShootTween.OnComplete(() =>
         {
+            _arrowView.EnableThruster(true);
             _arrowView.SetGravity(true);
             _arrowView.SetAngularVelocity(Vector3.zero);
             _arrowView.SetVelocity(_shootVector);
@@ -114,7 +120,8 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     {
         _spinBeforeShootTween?.Kill();
         _isCurrentlyStabbing = false;
-
+        
+        EnableThruster(false);
         _arrowView.SetIsKinematic(false);
         _arrowView.SetGravity(true);
         _arrowView.SetVelocity(_jumpVector);

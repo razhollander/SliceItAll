@@ -24,35 +24,38 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
     public override void Execute()
     {
         var isCollisionPopable = _collision.transform.GetComponent<PopableView>() != null;
-        var didStab = false;
-        Debug.Log("Collision Enter!");
-        if (!isCollisionPopable)
-        {
-            if (_collision.contacts.Length > 0)
-            {
-                didStab = _arrowModule.TryStabContactPoint(_collision.contacts[0]);
-                Debug.Log("TryStab success: "+didStab);
-            }
-
-            if (didStab)
-            {
-                var isCollisionWithBullseye = _collision.transform.GetComponent<BullseyeView>() != null;
-
-                if (isCollisionWithBullseye)
-                {
-                    _stabbedBullseyeCommand.Create().Execute().Forget();
-                }
-            }
-
-            var isCollisionWithLava = _collision.transform.GetComponent<LavaView>() != null;
+        _arrowModule.EnableThruster(false);
         
-            if (isCollisionWithLava)
+        if (isCollisionPopable)
+        {
+            return;
+        }
+        
+        var didStab = false;
+
+        if (_collision.contacts.Length > 0)
+        {
+            didStab = _arrowModule.TryStabContactPoint(_collision.contacts[0]);
+        }
+
+        if (didStab)
+        {
+            var isCollisionWithBullseye = _collision.transform.GetComponent<BullseyeView>() != null;
+
+            if (isCollisionWithBullseye)
             {
-                _gameOverCommand.Create().Execute().Forget();
+                _stabbedBullseyeCommand.Create().Execute().Forget();
             }
         }
 
-        if (!didStab && !isCollisionPopable)
+        var isCollisionWithLava = _collision.transform.GetComponent<LavaView>() != null;
+
+        if (isCollisionWithLava)
+        {
+            _gameOverCommand.Create().Execute().Forget();
+        }
+            
+        if (!didStab)
         {
             _audioService.PlayAudio(AudioClipName.Hit, AudioChannelType.Fx, AudioPlayType.OneShot);
         }
