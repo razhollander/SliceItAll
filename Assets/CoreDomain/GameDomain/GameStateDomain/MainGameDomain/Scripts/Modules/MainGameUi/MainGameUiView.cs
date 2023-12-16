@@ -7,14 +7,12 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
 {
     public class MainGameUiView : MonoBehaviour
     {
-        private const string CurrentLevelTextFormat = "Level {0}";
         
-        [SerializeField] private Countable _scoreCountable;
-        [SerializeField] private TextMeshProUGUI _currentLevelText;
-        [SerializeField] private GameObject _inGamePanel;
-        [SerializeField] private GameObject _beforeGamePanel;
         [SerializeField] private GameObject _gameOverPanel;
-
+        [SerializeField] private BeforeGameUiView _beforeGameUiView;
+        [SerializeField] private InGameUiView _inGameUiView;
+        [SerializeField] private WinUiView _winUiView;
+        
         public void ShowGameOverPanel()
         {
             _gameOverPanel.gameObject.SetActive(true);
@@ -27,26 +25,33 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
 
         public void UpdateScore(int newScore)
         {
-            _scoreCountable.SetNumber(newScore);
+            _inGameUiView.SetCurrentScoreText(newScore);
         }
         
         public void SwitchToInGameView()
         {
-            _inGamePanel.SetActive(true);
-            _beforeGamePanel.SetActive(false);
+            _inGameUiView.gameObject.SetActive(true);
+            _beforeGameUiView.gameObject.SetActive(false);
         }
         
         public void SwitchToBeforeGameView(int currentLevel)
         {
-            _currentLevelText.text = string.Format(CurrentLevelTextFormat, currentLevel);
-            _beforeGamePanel.SetActive(true);
-            _inGamePanel.SetActive(false);
+            _beforeGameUiView.SetCurrentLevelText(currentLevel.ToString());
+            _beforeGameUiView.gameObject.SetActive(true);
+            _inGameUiView.gameObject.SetActive(false);
             _gameOverPanel.SetActive(false);
+            _winUiView.gameObject.SetActive(false);
         }
 
         public void SetStartingValues(int score)
         {
-            _scoreCountable.SetStartingValue(score);
+            _inGameUiView.SetCurrentScoreText(score, false);
+        }
+
+        public void ShowWinPanel(int winScore)
+        {
+            _winUiView.gameObject.SetActive(true);
+            _winUiView.SetScoreText(winScore);
         }
     }
 }

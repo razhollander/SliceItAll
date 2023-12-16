@@ -18,10 +18,10 @@ namespace CoreDomain.Scripts.Utils.Command
         int _viewTotalNumber = 0;
         string _zeroDigits = "";
 
-        public void SetStartingValue(int value = 0)
+        public void SetStartingNumber(int number = 0)
         {
-            _viewTotalNumber = value;
-            _savedTotalNumber = value;
+            _viewTotalNumber = number;
+            _savedTotalNumber = number;
             SetText();
         }
 

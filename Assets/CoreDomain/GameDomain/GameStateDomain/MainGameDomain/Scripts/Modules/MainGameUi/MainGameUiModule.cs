@@ -5,21 +5,22 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
 {
     public class MainGameUiModule : IMainGameUiModule
     {
-        private readonly StartLevelCommand.Factory _beginGameCommand;
-        private readonly ResetGameCommand.Factory _resetGameCommand;
         private readonly MainGameUiCreator _creator;
         private MainGameUiView _mainGameView;
 
-        public MainGameUiModule(IResourcesLoaderService resourcesLoaderService, StartLevelCommand.Factory beginGameCommand, ResetGameCommand.Factory resetGameCommand)
+        public MainGameUiModule(IResourcesLoaderService resourcesLoaderService)
         {
-            _beginGameCommand = beginGameCommand;
-            _resetGameCommand = resetGameCommand;
             _creator = new MainGameUiCreator(resourcesLoaderService);
         }
 
         public void UpdateScore(int newScore)
         {
             _mainGameView.UpdateScore(newScore);
+        }
+        
+        public void ShowWinPanel(int winScore)
+        {
+            _mainGameView.ShowWinPanel(winScore);
         }
 
         public void CreateMainGameUi()
@@ -51,12 +52,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
         public void SwitchToBeforeGameView(int currentLevel)
         {
             _mainGameView.SwitchToBeforeGameView(currentLevel);
-        }
-        
-        private void OnPlayAgainClicked()
-        {
-            //_resetGameCommand.Create().Execute();
-            //_beginGameCommand.Create().Execute();
         }
     }
 }

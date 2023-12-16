@@ -8,13 +8,16 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
     private readonly IArrowModule _arrowModule;
     private readonly IAudioService _audioService;
     private readonly GameOverCommand.Factory _gameOverCommand;
+    private readonly StabbedBullseyeCommand.Factory _stabbedBullseyeCommand;
     private readonly Collision _collision;
 
-    public ArrowCollisionEnterCommand(ArrowCollisionEnterCommandData commandData, IArrowModule arrowModule, IAudioService audioService, GameOverCommand.Factory gameOverCommand)
+    public ArrowCollisionEnterCommand(ArrowCollisionEnterCommandData commandData, IArrowModule arrowModule, IAudioService audioService, GameOverCommand.Factory gameOverCommand,
+        StabbedBullseyeCommand.Factory stabbedBullseyeCommand)
     {
         _arrowModule = arrowModule;
         _audioService = audioService;
         _gameOverCommand = gameOverCommand;
+        _stabbedBullseyeCommand = stabbedBullseyeCommand;
         _collision = commandData.Collision;
     }
     
@@ -29,7 +32,17 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
             {
                 didStab = _arrowModule.TryStabContactPoint(_collision.contacts[0]);
             }
-            
+
+            if (didStab)
+            {
+                var isCollisionWithBullseye = _collision.transform.GetComponent<BullseyeView>() != null;
+
+                if (isCollisionWithBullseye)
+                {
+                    _stabbedBullseyeCommand.Create().Execute().Forget();
+                }
+            }
+
             var isCollisionWithLava = _collision.transform.GetComponent<LavaView>() != null;
         
             if (isCollisionWithLava)

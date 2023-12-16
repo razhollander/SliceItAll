@@ -33,13 +33,8 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
         _mainGameUiModule.SwitchToBeforeGameView(_levelsService.LastSavedLevelNumber);
         _levelTrackModule.CreateLevelTrack(_levelsService.GetLevelData(_commandData.LevelNumber).LevelTack);
         
-        await WaitForAnyKeyPressed();
+        await UniTaskHandler.WaitForAnyKeyPressed();
         
         _mainGameUiModule.SwitchToInGameView(_scoreModule.PlayerScore);
-    }
-    
-    private static async UniTask WaitForAnyKeyPressed()
-    {
-        await Observable.EveryUpdate().Where(_ => Input.anyKeyDown).First().ToTask();
     }
 }

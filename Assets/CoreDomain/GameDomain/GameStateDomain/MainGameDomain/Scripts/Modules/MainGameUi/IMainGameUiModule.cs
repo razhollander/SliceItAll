@@ -9,5 +9,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameU
         void SwitchToBeforeGameView(int currentLevel);
         void ShowGameOverPanel();
         void HideGameOverPanel();
+        void ShowWinPanel(int winScore);
     }
 }

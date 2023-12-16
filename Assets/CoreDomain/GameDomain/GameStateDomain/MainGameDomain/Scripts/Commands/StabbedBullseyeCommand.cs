@@ -2,34 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeyboardInputsModule;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi;
+using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score;
 using CoreDomain.Scripts.Utils.Command;
-using CoreDomain.Services.GameStates;
 using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
 
-public class GameOverCommand : Command<GameOverCommand>
+public class StabbedBullseyeCommand : Command<StabbedBullseyeCommand>
 {
     private readonly IMainGameUiModule _mainGameUiModule;
-    private readonly IStateMachineService _stateMachineService;
-    private readonly MainGameState.Factory _mainGameStateFactory;
+    private readonly IScoreModule _scoreModule;
     private readonly IGameInputActionsModule _gameInputActionsModule;
 
-    public GameOverCommand(IMainGameUiModule mainGameUiModule, IStateMachineService stateMachineService, MainGameState.Factory mainGameStateFactory, IGameInputActionsModule gameInputActionsModule)
+    public StabbedBullseyeCommand(IMainGameUiModule mainGameUiModule, IScoreModule scoreModule, IGameInputActionsModule gameInputActionsModule)
     {
         _mainGameUiModule = mainGameUiModule;
-        _stateMachineService = stateMachineService;
-        _mainGameStateFactory = mainGameStateFactory;
+        _scoreModule = scoreModule;
         _gameInputActionsModule = gameInputActionsModule;
     }
 
     public override async UniTask Execute()
     {
-        _mainGameUiModule.ShowGameOverPanel();
+        _mainGameUiModule.ShowWinPanel(_scoreModule.PlayerScore);
         _gameInputActionsModule.DisableInputs();
-
+        
         await UniTaskHandler.WaitForAnyKeyPressed();
-
-        _stateMachineService.SwitchState(_mainGameStateFactory.Create(new MainGameStateEnterData()));
+        
     }
 }
