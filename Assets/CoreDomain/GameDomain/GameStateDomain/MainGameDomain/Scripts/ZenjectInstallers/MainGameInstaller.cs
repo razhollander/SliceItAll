@@ -33,6 +33,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindFactory<ArrowParticleCollisionEnterCommandData, ArrowParticleCollisionEnterCommand, ArrowParticleCollisionEnterCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<GameOverCommand, GameOverCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<StabbedBullseyeCommand, StabbedBullseyeCommand.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<DisposeLevelCommand, DisposeLevelCommand.Factory>().AsSingle().NonLazy();
         }
 
         private void BindModules()

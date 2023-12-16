@@ -10,20 +10,20 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
     {
         [SerializeField] private MainGameStateEnterData _defaultLobbyGameStateEnterData;
 
-        private EnterMainGameStateCommand.Factory _mainGameStateCommandFactory;
+        private EnterMainGameStateCommand.Factory _enterMainGameStateCommandFactory;
         private ExitMainGameStateCommand.Factory _exitMainGameStateCommandFactory;
 
         [Inject]
-        private void Setup(EnterMainGameStateCommand.Factory mainGameStateCommandFactory, ExitMainGameStateCommand.Factory exitMainGameStateCommandFactory)
+        private void Setup(EnterMainGameStateCommand.Factory enterMainGameStateCommandFactory, ExitMainGameStateCommand.Factory exitMainGameStateCommandFactory)
         {
-            _mainGameStateCommandFactory = mainGameStateCommandFactory;
+            _enterMainGameStateCommandFactory = enterMainGameStateCommandFactory;
             _exitMainGameStateCommandFactory = exitMainGameStateCommandFactory;
         }
         
         public async UniTask EnterState(MainGameStateEnterData stateEnterData = null)
         {
             var enterData = stateEnterData ?? _defaultLobbyGameStateEnterData;
-            await _mainGameStateCommandFactory.Create(enterData).Execute();
+            _enterMainGameStateCommandFactory.Create(enterData).Execute().Forget();
         }
 
         public async UniTask ExitState()

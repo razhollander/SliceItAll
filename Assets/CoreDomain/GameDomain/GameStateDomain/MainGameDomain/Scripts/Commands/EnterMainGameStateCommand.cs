@@ -53,18 +53,9 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             LoadData();
             CreateGameObjects();
-            SetupModules();
             
             _audioService.PlayAudio(AudioClipName.MainGameBGMusic, AudioChannelType.Master, AudioPlayType.Loop);
             _startLevelCommand.Create(new StartLevelCommandData(_levelsService.LastSavedLevelNumber)).Execute().Forget();
-        }
-        
-        private void SetupModules()
-        {
-            _arrowModule.CreateArrow();
-            _arrowModule.RegisterListeners();
-            _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
-            _gameInputActionsModule.EnableInputs();
         }
 
         private void CreateGameObjects()

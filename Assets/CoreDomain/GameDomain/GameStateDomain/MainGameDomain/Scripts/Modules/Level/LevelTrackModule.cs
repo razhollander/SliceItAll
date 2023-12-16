@@ -16,4 +16,9 @@ public class LevelTrackModule : ILevelTrackModule
     {
         _currentLevelTrack = _levelCreator.CreateLevelTrack(levelTrackPrefab);
     }
+
+    public void Dispose()
+    {
+        Object.Destroy(_currentLevelTrack);
+    }
 }

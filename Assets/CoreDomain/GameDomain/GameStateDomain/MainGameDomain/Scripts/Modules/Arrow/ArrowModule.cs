@@ -55,21 +55,17 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     public void CreateArrow()
     {
         _arrowView = _arrowCreator.CreateArrow();
-
-        if (_arrowView == null)
-        {
-            LogService.LogError("No Arrow Found In Scene!");
-            return;
-        }
-        
         _arrowView.transform.position = new Vector3(0, 10, 0);
-        _arrowView.transform.rotation = Quaternion.Euler(0, 0, -45);  
+        _arrowView.transform.rotation = Quaternion.Euler(0, 0, -50);  
         _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, _arrowMovementData.AngularDrag, OnArrowParticleCollisionEnter);
     }
 
     public void Dispose()
     {
         _updateSubscriptionService.UnregisterFixedUpdatable(this);
+        Object.Destroy(_arrowView.gameObject);
+        _canStabInCurrentLoop = true;
+        _isCurrentlyStabbing = false;
     }
 
     private async UniTask Shoot()
@@ -148,7 +144,6 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
 
         _prevZRotation = currentZRotation;
     }
-    
     
     private void SetLoopAngularVelocity()
     {
