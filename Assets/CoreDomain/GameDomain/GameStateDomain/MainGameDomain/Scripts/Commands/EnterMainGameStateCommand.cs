@@ -16,12 +16,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
     {
         private readonly MainGameStateEnterData _stateEnterData;
         private readonly IMainGameUiModule _mainGameUiModule;
-        private readonly IPlayerSpaceshipModule _playerSpaceshipModule;
         private readonly IAudioService _audioService;
-        private readonly IFloorModule _floorModule;
-        private readonly IGameSpeedService _gameSpeedService;
         private readonly ICameraService _cameraService;
-        private readonly IAsteroidsModule _asteroidsModule;
         private readonly IScoreModule _scoreModule;
         private readonly StartLevelCommand.Factory _startLevelCommand;
         private readonly IArrowModule _arrowModule;
@@ -32,12 +28,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         public EnterMainGameStateCommand(
             MainGameStateEnterData stateEnterData,
             IMainGameUiModule mainGameUiModule,
-            IPlayerSpaceshipModule playerSpaceshipModule,
             IAudioService audioService,
-            IFloorModule floorModule,
-            IGameSpeedService gameSpeedService,
             ICameraService cameraService,
-            IAsteroidsModule asteroidsModule,
             IScoreModule scoreModule,
             StartLevelCommand.Factory startLevelCommand,
             IArrowModule arrowModule,
@@ -47,11 +39,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             _stateEnterData = stateEnterData;
             _mainGameUiModule = mainGameUiModule;
-            _playerSpaceshipModule = playerSpaceshipModule;
-            _floorModule = floorModule;
-            _gameSpeedService = gameSpeedService;
             _cameraService = cameraService;
-            _asteroidsModule = asteroidsModule;
             _scoreModule = scoreModule;
             _startLevelCommand = startLevelCommand;
             _arrowModule = arrowModule;
@@ -86,7 +74,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private void LoadData()
         {
             _levelsService.LoadLevelsData();
-            _scoreModule.LoadScoreConfig();
         }
     }
 }

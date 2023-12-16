@@ -44,7 +44,6 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
         _inputActionsModule.DisableInputs();
         _asteroidsModule.StopSpawning();
         _floorModule.StopMovement();
-        _scoreModule.StopCountingScore();
         _playerSpaceshipModule.EnableSpaceShipMovement(false);
         _timePlayingModule.StopTimer();
         _audioService.PlayAudio(AudioClipName.HitSoundFXName, AudioChannelType.Fx, AudioPlayType.OneShot);

@@ -2,12 +2,8 @@
 {
     public interface IScoreModule
     {
-        void AddScore(float score);
+        void AddScore(int score);
         int PlayerScore { get; }
-        void LoadScoreConfig();
-        void StartCountingScore();
-        void StopCountingScore();
-        void SetMultiplier(bool isOn);
         void ResetScore();
     }
 }

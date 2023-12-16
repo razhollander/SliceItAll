@@ -20,21 +20,14 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 
         private void BindCommands()
         {
-            Container.BindFactory<GameBoostModeChangedCommandData, GameBoostModeChangedCommand, GameBoostModeChangedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<JumpInputInvokedCommand, JumpInputInvokedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ShootInputInvokedCommand, ShootInputInvokedCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<PoolData, AsteroidsPool, AsteroidsPool.Factory>().AsSingle().NonLazy();
             Container.BindFactory<PoolData, ScoreGainedFXPool, ScoreGainedFXPool.Factory>().AsSingle().NonLazy();
             Container.BindFactory<MainGameStateEnterData, EnterMainGameStateCommand, EnterMainGameStateCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ExitMainGameStateCommand, ExitMainGameStateCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<SpawnAsteroidCommand, SpawnAsteroidCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<float, ArrowKeysInputChangedCommand, ArrowKeysInputChangedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ScoreChangedCommandData, ScoreChangedCommand, ScoreChangedCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<int, TimePlayingChangedCommand, TimePlayingChangedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<StartLevelCommandData, StartLevelCommand, StartLevelCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<PlayerHitCommand, PlayerHitCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ResetGameCommand, ResetGameCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<AsteroidPassedPlayerCommandData, AsteroidPassedPlayerCommand, AsteroidPassedPlayerCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowCollisionEnterCommandData, ArrowCollisionEnterCommand, ArrowCollisionEnterCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowTriggerEnterCommandData, ArrowTriggerEnterCommand, ArrowTriggerEnterCommand.Factory>().AsSingle().NonLazy();
         }
@@ -43,12 +36,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             Container.BindInterfacesTo<ArrowModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<MainGameUiModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<PlayerSpaceshipModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<FloorModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ScoreModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<AsteroidsModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<TimePlayingModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<HighScoreModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<LevelTrackModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<FXModule>().AsSingle().NonLazy();
         }
@@ -56,7 +44,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private void BindServices()
         {
             Container.BindInterfacesTo<GameInputActionsModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<GameSpeedService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<LevelsService>().AsSingle().NonLazy();
         }
     }

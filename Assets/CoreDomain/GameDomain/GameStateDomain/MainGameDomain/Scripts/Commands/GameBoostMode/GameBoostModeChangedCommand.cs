@@ -37,7 +37,6 @@ public class GameBoostModeChangedCommand : CommandOneParameter<GameBoostModeChan
     {
         _gameSpeedService.SetBoostMode(_commandData.IsBoostOn);
         _cameraService.SetCameraZoom(GameCameraType.World, !_commandData.IsBoostOn);
-        _scoreModule.SetMultiplier(_commandData.IsBoostOn);
         _playerSpaceshipModule.EnableThrusterBoost(_commandData.IsBoostOn);
     }
 }

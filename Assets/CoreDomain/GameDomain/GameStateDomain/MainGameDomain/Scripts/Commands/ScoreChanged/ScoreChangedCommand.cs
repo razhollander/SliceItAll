@@ -11,19 +11,17 @@ public class ScoreChangedCommand : CommandSyncOneParameter<ScoreChangedCommandDa
     private readonly ScoreChangedCommandData _commandData;
     private readonly IScoreModule _scoreModule;
     private readonly IMainGameUiModule _mainGameUiModule;
-    private readonly IHighScoreModule _highScoreModule;
 
-    public ScoreChangedCommand(ScoreChangedCommandData commandData, IScoreModule scoreModule, IMainGameUiModule mainGameUiModule, IHighScoreModule highScoreModule)
+    public ScoreChangedCommand(ScoreChangedCommandData commandData, IScoreModule scoreModule, IMainGameUiModule mainGameUiModule)
     {
         _commandData = commandData;
         _scoreModule = scoreModule;
         _mainGameUiModule = mainGameUiModule;
-        _highScoreModule = highScoreModule;
     }
     
     public override void Execute()
     {
-        _scoreModule.AddScore(_commandData.ScoreAdded);
+        _scoreModule.AddScore((int)_commandData.ScoreAdded);
         _mainGameUiModule.UpdateScore(_scoreModule.PlayerScore);
     }
 }
