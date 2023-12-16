@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18db1941066b4ce2b5cb1f62c2810d6, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  LevelTack: {fileID: 1947449568558481397, guid: 93bc14e95490f884384a40971b97b72f, type: 3}
+  LevelTack: {fileID: 1947449568558481397, guid: c1c1e60e6b4df684bb2ea4f9db6bf565, type: 3}
