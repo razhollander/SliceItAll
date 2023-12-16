@@ -22,7 +22,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeybo
 
         public void EnableInputs()
         {
-            Debug.Log("EnableInputs");
             _gameInputActions.MainGame.Jump.started += OnJumpInput;
             _gameInputActions.MainGame.Shoot.performed += OnShootInput;
         }
@@ -35,14 +34,11 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeybo
         
         private void OnShootInput(InputAction.CallbackContext obj)
         {
-            Debug.Log("OnShootInput");
-
             _shootInputInvokedCommandFactory.Create().Execute();
         }
 
         private void OnJumpInput(InputAction.CallbackContext context)
         {
-            Debug.Log("OnJumpInput");
             _jumpInputInvokedCommandFactory.Create().Execute();
         }
     }

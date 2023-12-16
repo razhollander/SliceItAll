@@ -11,8 +11,31 @@ public class BubblesView : MonoBehaviour
     // the trigger conditions each frame.
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
 
+    void OnParticleCollision(GameObject other)
+    {
+        //Debug.Log("OnParticleCollision");
+//
+        //// get the particles which matched the trigger conditions this frame
+        //int numEnter = _bubblesParticleSystem.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
+//
+        //// iterate through the particles which entered the trigger and make them red
+        //for (int i = 0; i < numEnter; i++)
+        //{
+        //    ParticleSystem.Particle p = enter[i];
+        //    Debug.Log(p.position);
+        //    //p.startColor = new Color32(255, 0, 0, 255);
+        //    //p.position
+        //    enter[i] = p;
+        //}
+//
+        //// re-assign the modified particles back into the particle system
+        //_bubblesParticleSystem.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
+    }
+
     void OnParticleTrigger()
     {
+        Debug.Log("OnParticleTrigger");
+
         // get the particles which matched the trigger conditions this frame
         int numEnter = _bubblesParticleSystem.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
 
@@ -20,6 +43,7 @@ public class BubblesView : MonoBehaviour
         for (int i = 0; i < numEnter; i++)
         {
             ParticleSystem.Particle p = enter[i];
+            Debug.Log(p.position);
             //p.startColor = new Color32(255, 0, 0, 255);
             //p.position
             enter[i] = p;

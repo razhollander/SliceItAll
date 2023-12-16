@@ -30,6 +30,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindFactory<ResetGameCommand, ResetGameCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowCollisionEnterCommandData, ArrowCollisionEnterCommand, ArrowCollisionEnterCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowTriggerEnterCommandData, ArrowTriggerEnterCommand, ArrowTriggerEnterCommand.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<ArrowParticleCollisionEnterCommandData, ArrowParticleCollisionEnterCommand, ArrowParticleCollisionEnterCommand.Factory>().AsSingle().NonLazy();
         }
 
         private void BindModules()

@@ -15,7 +15,7 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
     public override void Execute()
     {
         var isCollisionPopable = _collision.transform.GetComponent<PopableView>() != null;
-
+        
         if (isCollisionPopable)
         {
             // arrow white effect

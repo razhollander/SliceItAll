@@ -8,9 +8,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7037ad1c3ebb43469c2eb3ede568e14623200/71/0fefb91b/ParticleSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d3c6cf46ff3e4ea0b4ca8da283b7ad3a12dc00/0f/64f62566/Transform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d3c6cf46ff3e4ea0b4ca8da283b7ad3a12dc00/55/946aac2d/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/ArrowCollisionEnter/ArrowCollisionEnterCommandData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/ArrowCollisionEnter/ArrowParticleCollisionEnterCommandData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/ArrowTriggerEnter/ArrowTriggerEnterCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/JumpInputInvokedCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/StartLevel/StartLevelCommandData.cs" root0="FORCE_HIGHLIGHTING" />
@@ -114,7 +116,7 @@
       <workItem from="1702458965306" duration="712000" />
       <workItem from="1702459787632" duration="23813000" />
       <workItem from="1702625670838" duration="12970000" />
-      <workItem from="1702728687657" duration="1217000" />
+      <workItem from="1702728687657" duration="5620000" />
     </task>
     <servers />
   </component>

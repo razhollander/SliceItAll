@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowView : MonoBehaviour
@@ -7,17 +8,24 @@ public class ArrowView : MonoBehaviour
     
     private Action<Collision> _onCollisionEnter;
     private Action<Collider> _onTriggerEnter;
+    private Action<ParticleSystem> _onParticleCollisionEnter;
 
-    public void Setup(Action<Collision> onCollisionEnter, Action<Collider> onTriggerEnter, float angularDrag)
+    public void Setup(Action<Collision> onCollisionEnter, Action<Collider> onTriggerEnter, float angularDrag, Action<ParticleSystem> onParticleCollisionEnter)
     {
         _onCollisionEnter = onCollisionEnter;
         _onTriggerEnter = onTriggerEnter;
         _rigidbody.angularDrag = angularDrag;
+        _onParticleCollisionEnter = onParticleCollisionEnter;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         _onCollisionEnter?.Invoke(collision);
+    }
+    
+    private void OnParticleCollision(GameObject particleSystemGO)
+    {
+        _onParticleCollisionEnter(particleSystemGO.GetComponent<ParticleSystem>());
     }
  
     private void OnTriggerEnter(Collider otherCollider)

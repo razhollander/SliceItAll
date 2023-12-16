@@ -12,6 +12,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     private readonly IUpdateSubscriptionService _updateSubscriptionService;
     private readonly ArrowCollisionEnterCommand.Factory _arrowCollisionEnterCommand;
     private readonly ArrowTriggerEnterCommand.Factory _arrowTriggerEnterCommand;
+    private readonly ArrowParticleCollisionEnterCommand.Factory _arrowParticleCollisionEnterCommand;
     public Transform ArrowTransform => _arrowView.transform;
 
     private ArrowView _arrowView;
@@ -33,11 +34,14 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     private readonly Vector3 _jumpVector;
     private float _prevZRotation;
 
-    public ArrowModule(IUpdateSubscriptionService updateSubscriptionService, ArrowCollisionEnterCommand.Factory arrowCollisionEnterCommand, ArrowTriggerEnterCommand.Factory arrowTriggerEnterCommand)
+    public ArrowModule(IUpdateSubscriptionService updateSubscriptionService, ArrowCollisionEnterCommand.Factory arrowCollisionEnterCommand,
+        ArrowTriggerEnterCommand.Factory arrowTriggerEnterCommand,
+        ArrowParticleCollisionEnterCommand.Factory arrowParticleCollisionEnterCommand)
     {
         _updateSubscriptionService = updateSubscriptionService;
         _arrowCollisionEnterCommand = arrowCollisionEnterCommand;
         _arrowTriggerEnterCommand = arrowTriggerEnterCommand;
+        _arrowParticleCollisionEnterCommand = arrowParticleCollisionEnterCommand;
         _shootVector = Quaternion.Euler(0, 0, _shootAngleRelativeToFloor) * Vector3.right * _shootVelocity;
         _jumpVector = Quaternion.Euler(0, 0, _jumpAngleRelativeToFloor) * Vector3.right * _jumpForce;
     }
@@ -52,7 +56,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
             return;
         }
         
-        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, _angularDrag);
+        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, _angularDrag, OnArrowParticleCollisionEnter);
         _updateSubscriptionService.RegisterFixedUpdatable(this);
     }
 
@@ -106,7 +110,6 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     
     public void Jump()
     {
-        Debug.Log("Jump!");
         _spinBeforeShootTween?.Kill();
         _isCurrentlyStabbing = false;
 
@@ -166,6 +169,11 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     private void OnArrowTriggerEnter(Collider collider)
     {
         _arrowTriggerEnterCommand.Create(new ArrowTriggerEnterCommandData(collider)).Execute();
+    }
+    
+    private void OnArrowParticleCollisionEnter(ParticleSystem particleSystem)
+    {
+        _arrowParticleCollisionEnterCommand.Create(new ArrowParticleCollisionEnterCommandData(particleSystem, _arrowView.gameObject)).Execute();
     }
     
     private bool DidStabContactPoint(ContactPoint contactPoint)
