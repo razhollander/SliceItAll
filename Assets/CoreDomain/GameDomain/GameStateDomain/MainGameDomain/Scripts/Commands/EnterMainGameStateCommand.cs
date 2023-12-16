@@ -61,7 +61,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         
         private void SetupModules()
         {
-            _arrowModule.SetupArrow();
+            _arrowModule.CreateArrow();
+            _arrowModule.RegisterListeners();
             _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
             _gameInputActionsModule.EnableInputs();
         }
@@ -74,6 +75,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private void LoadData()
         {
             _levelsService.LoadLevelsData();
+            _arrowModule.LoadArrowMovementData();
         }
     }
 }

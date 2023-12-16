@@ -14,8 +14,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/ArrowCollisionEnter/ArrowCollisionEnterCommandData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/ArrowCollisionEnter/ArrowParticleCollisionEnterCommandData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/ArrowTriggerEnter/ArrowTriggerEnterCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/GameOverCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/JumpInputInvokedCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/StartLevel/StartLevelCommandData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Modules/Arrow/ArrowCreator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Modules/Arrow/ArrowModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Modules/Arrow/ArrowView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Modules/Balloon/BalloonHeadView.cs" root0="FORCE_HIGHLIGHTING" />
@@ -116,7 +118,7 @@
       <workItem from="1702458965306" duration="712000" />
       <workItem from="1702459787632" duration="23813000" />
       <workItem from="1702625670838" duration="12970000" />
-      <workItem from="1702728687657" duration="8674000" />
+      <workItem from="1702728687657" duration="12960000" />
     </task>
     <servers />
   </component>
@@ -131,19 +133,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Commands/JumpInputInvokedCommand.cs</url>
-          <line>21</line>
-          <properties documentPath="C:\Users\Raz\Documents\PF\Raz\Work\Dev\Unity\SliceItAll\Assets\CoreDomain\GameDomain\GameStateDomain\MainGameDomain\Scripts\Commands\JumpInputInvokedCommand.cs" initialLine="18" containingFunctionPresentation="method 'Execute'">
-            <startOffsets>
-              <option value="809" />
-            </startOffsets>
-            <endOffsets>
-              <option value="829" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/CoreDomain/Plugins/Zenject/Source/Install/Contexts/SceneContext.cs</url>
           <line>127</line>

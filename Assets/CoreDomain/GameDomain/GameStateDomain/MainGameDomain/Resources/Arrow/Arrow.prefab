@@ -203,17 +203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2821425947974107866}
-  _jumpForce: 7
-  _jumpAngleRelativeToFloor: 75
-  _rendererTransform: {fileID: 1148302177122998890}
-  _startRotationLoopSpeed: -12
-  _spacePressedRotationLoopSpeed: -13.5
-  _angularDrag: 2
-  _arrowHeadCollider: {fileID: 3917014957320837071}
-  _maxStabAngleWithSurface: 60
-  _shootAngleRelativeToFloor: -60
-  _shootRotationDuration: 0.5
-  _shootVelocity: 40
 --- !u!1 &3575220870666549556
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,8 +489,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05219447, y: 0.019915389, z: 0.04596327}
-  m_Center: {x: 0.0006923526, y: -0.00093897746, z: 0.0010385303}
+  m_Size: {x: 0.05219447, y: 0.012904582, z: 0.04596327}
+  m_Center: {x: 0.0006923526, y: 0.0025664154, z: 0.0010385303}
 --- !u!1 &8161758383688839451
 GameObject:
   m_ObjectHideFlags: 0

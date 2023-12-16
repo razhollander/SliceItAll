@@ -41,7 +41,6 @@ public class PlayerHitCommand : CommandSync<PlayerHitCommand>
     
     public override void Execute()
     {
-        _inputActionsModule.DisableInputs();
         _asteroidsModule.StopSpawning();
         _floorModule.StopMovement();
         _playerSpaceshipModule.EnableSpaceShipMovement(false);

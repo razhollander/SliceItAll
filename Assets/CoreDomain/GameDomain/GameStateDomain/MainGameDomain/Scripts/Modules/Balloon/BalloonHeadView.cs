@@ -20,7 +20,6 @@ public class BalloonHeadView : PopableView
     
     public override void Pop()
     {
-        Debug.Log("POP!");
         _onPopped?.Invoke();
     }
 }

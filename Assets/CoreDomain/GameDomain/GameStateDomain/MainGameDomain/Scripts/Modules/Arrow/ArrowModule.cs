@@ -14,44 +14,47 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     private readonly ArrowTriggerEnterCommand.Factory _arrowTriggerEnterCommand;
     private readonly ArrowParticleCollisionEnterCommand.Factory _arrowParticleCollisionEnterCommand;
     private readonly IAudioService _audioService;
+    private readonly IResourcesLoaderService _resourcesLoaderService;
     public Transform ArrowTransform => _arrowView.transform;
 
     private ArrowView _arrowView;
-    
-    private float _spacePressedRotationLoopSpeed = -13.5f;
-    private float _maxStabAngleWithSurface = 60;
-    private float _startRotationLoopSpeed = -12;
-    private float _shootAngleRelativeToFloor = -60;
-    private float _shootRotationDuration = 0.5f;
-    private float _jumpAngleRelativeToFloor = 75;
-    private float _jumpForce=7;
-    private float _shootVelocity = 40f;
-    private float _angularDrag = 2;
-
-    private bool _canStabInCurrentLoop;
+    private bool _canStabInCurrentLoop = true;
     private bool _isCurrentlyStabbing;
     private TweenerCore<float,float,FloatOptions> _spinBeforeShootTween;
-    private readonly Vector3 _shootVector;
-    private readonly Vector3 _jumpVector;
+    private Vector3 _shootVector;
+    private Vector3 _jumpVector;
     private float _prevZRotation;
-
+    private ArrowMovementData _arrowMovementData;
+    private ArrowCreator _arrowCreator;
+    
     public ArrowModule(IUpdateSubscriptionService updateSubscriptionService, ArrowCollisionEnterCommand.Factory arrowCollisionEnterCommand,
         ArrowTriggerEnterCommand.Factory arrowTriggerEnterCommand,
         ArrowParticleCollisionEnterCommand.Factory arrowParticleCollisionEnterCommand,
-        IAudioService audioService)
+        IAudioService audioService, IResourcesLoaderService resourcesLoaderService)
     {
+        _arrowCreator = new ArrowCreator(resourcesLoaderService); 
         _updateSubscriptionService = updateSubscriptionService;
         _arrowCollisionEnterCommand = arrowCollisionEnterCommand;
         _arrowTriggerEnterCommand = arrowTriggerEnterCommand;
         _arrowParticleCollisionEnterCommand = arrowParticleCollisionEnterCommand;
         _audioService = audioService;
-        _shootVector = Quaternion.Euler(0, 0, _shootAngleRelativeToFloor) * Vector3.right * _shootVelocity;
-        _jumpVector = Quaternion.Euler(0, 0, _jumpAngleRelativeToFloor) * Vector3.right * _jumpForce;
     }
-    
-    public void SetupArrow()
+
+    public void LoadArrowMovementData()
     {
-        _arrowView = GameObject.FindObjectOfType<ArrowView>();
+        _arrowMovementData = _arrowCreator.LoadArrowMovementData();
+        _shootVector = Quaternion.Euler(0, 0, _arrowMovementData.ShootAngleRelativeToFloor) * Vector3.right * _arrowMovementData.ShootVelocity;
+        _jumpVector = Quaternion.Euler(0, 0, _arrowMovementData.JumpAngleRelativeToFloor) * Vector3.right * _arrowMovementData.JumpForce;
+    }
+
+    public void RegisterListeners()
+    {
+        _updateSubscriptionService.RegisterFixedUpdatable(this);
+    }
+
+    public void CreateArrow()
+    {
+        _arrowView = _arrowCreator.CreateArrow();
 
         if (_arrowView == null)
         {
@@ -59,11 +62,12 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
             return;
         }
         
-        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, _angularDrag, OnArrowParticleCollisionEnter);
-        _updateSubscriptionService.RegisterFixedUpdatable(this);
+        _arrowView.transform.position = new Vector3(0, 10, 0);
+        _arrowView.transform.rotation = Quaternion.Euler(0, 0, -45);  
+        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, _arrowMovementData.AngularDrag, OnArrowParticleCollisionEnter);
     }
 
-    ~ArrowModule()
+    public void Dispose()
     {
         _updateSubscriptionService.UnregisterFixedUpdatable(this);
     }
@@ -75,7 +79,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
         var currentRotationAngle = MathHandler.ConvertAngleToBeBetween0To360(_arrowView.GetZRotation());
         var loopAnimationAngles = currentRotationAngle;
 
-        if (currentRotationAngle <180 && currentRotationAngle > _shootAngleRelativeToFloor)
+        if (currentRotationAngle <180 && currentRotationAngle > _arrowMovementData.ShootAngleRelativeToFloor)
         {
             loopAnimationAngles += 360;
         }
@@ -84,17 +88,16 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
 
         _spinBeforeShootTween?.Kill();
         _spinBeforeShootTween =  DOTween.To(
-            () => loopAnimationAngles-_shootAngleRelativeToFloor,
+            () => loopAnimationAngles-_arrowMovementData.ShootAngleRelativeToFloor,
             x =>
             {
-                loopAnimationAngles = x + _shootAngleRelativeToFloor;
+                loopAnimationAngles = x + _arrowMovementData.ShootAngleRelativeToFloor;
                 _arrowView.SetZRotation(loopAnimationAngles);
             },
-            0, _shootRotationDuration);
+            0, _arrowMovementData.ShootRotationDuration);
 
         _spinBeforeShootTween.OnComplete(() =>
         {
-            Debug.Log("finishedTween");
             _arrowView.SetGravity(true);
             _arrowView.SetAngularVelocity(Vector3.zero);
             _arrowView.SetVelocity(_shootVector);
@@ -119,7 +122,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
         _arrowView.SetIsKinematic(false);
         _arrowView.SetGravity(true);
         _arrowView.SetVelocity(_jumpVector);
-        _arrowView.SetZAngularVelocity(_spacePressedRotationLoopSpeed);
+        _arrowView.SetZAngularVelocity(_arrowMovementData.SpacePressedRotationLoopSpeed);
     }
 
     public void ManagedFixedUpdate()
@@ -149,7 +152,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     
     private void SetLoopAngularVelocity()
     {
-        _arrowView.SetZAngularVelocity(_startRotationLoopSpeed);
+        _arrowView.SetZAngularVelocity(_arrowMovementData.StartRotationLoopSpeed);
     }
 
     public bool TryStabContactPoint(ContactPoint collisionContact)
@@ -186,6 +189,6 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     {
         Vector3 contactPointNormal = contactPoint.normal;
         Vector3 hitVector = -_arrowView.transform.right;
-        return Vector3.Angle(hitVector, contactPointNormal) < _maxStabAngleWithSurface;
+        return Vector3.Angle(hitVector, contactPointNormal) < _arrowMovementData.MaxStabAngleWithSurface;
     }
 }

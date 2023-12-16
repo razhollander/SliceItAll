@@ -1,17 +1,20 @@
 using CoreDomain.Scripts.Utils.Command;
 using CoreDomain.Services;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollisionEnterCommandData, ArrowCollisionEnterCommand>
 {
     private readonly IArrowModule _arrowModule;
     private readonly IAudioService _audioService;
+    private readonly GameOverCommand.Factory _gameOverCommand;
     private readonly Collision _collision;
 
-    public ArrowCollisionEnterCommand(ArrowCollisionEnterCommandData commandData, IArrowModule arrowModule, IAudioService audioService)
+    public ArrowCollisionEnterCommand(ArrowCollisionEnterCommandData commandData, IArrowModule arrowModule, IAudioService audioService, GameOverCommand.Factory gameOverCommand)
     {
         _arrowModule = arrowModule;
         _audioService = audioService;
+        _gameOverCommand = gameOverCommand;
         _collision = commandData.Collision;
     }
     
@@ -19,6 +22,7 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
     {
         var isCollisionPopable = _collision.transform.GetComponent<PopableView>() != null;
         var didStab = false;
+        
         if (!isCollisionPopable)
         {
             if (_collision.contacts.Length > 0)
@@ -30,7 +34,7 @@ public class ArrowCollisionEnterCommand : CommandSyncOneParameter<ArrowCollision
         
             if (isCollisionWithLava)
             {
-                // game over
+                _gameOverCommand.Create().Execute().Forget();
             }
         }
 
