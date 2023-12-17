@@ -1,14 +1,8 @@
-using System.Threading.Tasks;
-using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeyboardInputsModule;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi;
-using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.PlayerSpaceship;
-using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score;
 using CoreDomain.Scripts.Utils.Command;
 using CoreDomain.Services;
 using CoreDomain.Services.GameStates;
 using Cysharp.Threading.Tasks;
-using UniRx;
-using UnityEngine;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
 {

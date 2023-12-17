@@ -1,7 +1,6 @@
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Commands;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeyboardInputsModule;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi;
-using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.PlayerSpaceship;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score;
 using CoreDomain.Services.GameStates;
 using CoreDomain.Utils.Pools;
@@ -27,7 +26,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindFactory<ExitMainGameStateCommand, ExitMainGameStateCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ScoreChangedCommandData, ScoreChangedCommand, ScoreChangedCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<StartLevelCommandData, StartLevelCommand, StartLevelCommand.Factory>().AsSingle().NonLazy();
-            Container.BindFactory<ResetGameCommand, ResetGameCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowCollisionEnterCommandData, ArrowCollisionEnterCommand, ArrowCollisionEnterCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowTriggerEnterCommandData, ArrowTriggerEnterCommand, ArrowTriggerEnterCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<ArrowParticleCollisionEnterCommandData, ArrowParticleCollisionEnterCommand, ArrowParticleCollisionEnterCommand.Factory>().AsSingle().NonLazy();

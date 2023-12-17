@@ -119,6 +119,8 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     
     public void Jump()
     {
+        _audioService.PlayAudio(AudioClipName.Jump, AudioChannelType.Fx, AudioPlayType.OneShot);
+
         _spinBeforeShootTween?.Kill();
         _isCurrentlyStabbing = false;
         
