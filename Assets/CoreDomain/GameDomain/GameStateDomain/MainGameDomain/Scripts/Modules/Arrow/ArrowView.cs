@@ -28,7 +28,7 @@ public class ArrowView : MonoBehaviour
     {
         _onParticleCollisionEnter(particleSystemGO.GetComponent<ParticleSystem>());
     }
- 
+
     private void OnTriggerEnter(Collider otherCollider)
     {
         _onTriggerEnter?.Invoke(otherCollider);

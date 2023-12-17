@@ -17,38 +17,29 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private readonly MainGameStateEnterData _stateEnterData;
         private readonly IMainGameUiModule _mainGameUiModule;
         private readonly IAudioService _audioService;
-        private readonly ICameraService _cameraService;
-        private readonly IScoreModule _scoreModule;
         private readonly StartLevelCommand.Factory _startLevelCommand;
         private readonly IArrowModule _arrowModule;
-        private readonly IGameInputActionsModule _gameInputActionsModule;
         private readonly ILevelsService _levelsService;
-        private readonly ILevelTrackModule _levelTrackModule;
         private readonly IBalloonsModule _balloonsModule;
+        private readonly IBubblesModule _bubblesModule;
 
         public EnterMainGameStateCommand(
             MainGameStateEnterData stateEnterData,
             IMainGameUiModule mainGameUiModule,
             IAudioService audioService,
-            ICameraService cameraService,
-            IScoreModule scoreModule,
             StartLevelCommand.Factory startLevelCommand,
             IArrowModule arrowModule,
-            IGameInputActionsModule gameInputActionsModule,
             ILevelsService levelsService,
-            ILevelTrackModule levelTrackModule,
-            IBalloonsModule balloonsModule)
+            IBalloonsModule balloonsModule,
+            IBubblesModule bubblesModule)
         {
             _stateEnterData = stateEnterData;
             _mainGameUiModule = mainGameUiModule;
-            _cameraService = cameraService;
-            _scoreModule = scoreModule;
             _startLevelCommand = startLevelCommand;
             _arrowModule = arrowModule;
-            _gameInputActionsModule = gameInputActionsModule;
             _levelsService = levelsService;
-            _levelTrackModule = levelTrackModule;
             _balloonsModule = balloonsModule;
+            _bubblesModule = bubblesModule;
             _audioService = audioService;
         }
 
@@ -71,6 +62,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             _levelsService.LoadLevelsData();
             _arrowModule.LoadArrowMovementData();
             _balloonsModule.LoadData();
+            _bubblesModule.LoadData();
         }
     }
 }

@@ -11,17 +11,17 @@ public class BalloonView : PopableView
     [SerializeField] private GameObject _balloonString;
     [SerializeField] private ParticleSystem _popParticleSystem;
     
-    private Action<BalloonView> _onPoppedAction;
+    private Action<BalloonView, Vector3> _onPoppedAction;
 
-    public void Setup(Action<BalloonView> onPoppedAction, Color color)
+    public void Setup(Action<BalloonView, Vector3> onPoppedAction, Color color)
     {
         _onPoppedAction = onPoppedAction;
         _balloonHeadView.SetColor(color);
     }
     
-    public override void Pop()
+    public override void Pop(Vector3 position)
     {
-        _onPoppedAction?.Invoke(this);
+        _onPoppedAction?.Invoke(this, position);
     }
 
     public void PlayPopEffect()
@@ -30,10 +30,5 @@ public class BalloonView : PopableView
         _balloonHeadView.gameObject.SetActive(false);
         _balloonString.transform.DOScaleZ(0, 1.5f * _balloonString.transform.localScale.z).SetEase(Ease.OutCubic);
         _popParticleSystem.Play();
-    }
-
-    public override Vector3 GetPopCenterPoint()
-    {
-        return _balloonHeadView.transform.position;
     }
 }

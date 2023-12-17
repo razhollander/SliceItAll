@@ -35,6 +35,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindFactory<StabbedBullseyeCommand, StabbedBullseyeCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<DisposeLevelCommand, DisposeLevelCommand.Factory>().AsSingle().NonLazy();
             Container.BindFactory<PopBalloonCommandData, PopBalloonCommand, PopBalloonCommand.Factory>().AsSingle().NonLazy();
+            Container.BindFactory<PopBubbleCommandData, PopBubbleCommand, PopBubbleCommand.Factory>().AsSingle().NonLazy();
         }
 
         private void BindModules()
@@ -45,6 +46,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             Container.BindInterfacesTo<LevelTrackModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<FXModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<BalloonsModule>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<BubblesModule>().AsSingle().NonLazy();
         }
 
         private void BindServices()

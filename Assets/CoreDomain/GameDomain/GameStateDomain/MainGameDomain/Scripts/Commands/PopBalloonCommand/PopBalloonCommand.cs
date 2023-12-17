@@ -26,7 +26,7 @@ public class PopBalloonCommand : CommandSyncOneParameter<PopBalloonCommandData, 
     {
         var popScore = _balloonsModule.BalloonPopScore;
         _commandData.BalloonView.PlayPopEffect();
-        _fxModule.ShowScoreGainedFx(_commandData.BalloonView.GetPopCenterPoint(), popScore);
+        _fxModule.ShowScoreGainedFx(_commandData.Position, popScore);
         _scoreChangedCommand.Create(new ScoreChangedCommandData(popScore)).Execute();
         _audioService.PlayAudio(AudioClipName.BalloonPop, AudioChannelType.Fx, AudioPlayType.OneShot);
     }

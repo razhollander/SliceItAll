@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2186281245719102755}
-  - component: {fileID: 3730442304026812980}
   m_Layer: 0
   m_Name: BubblesEmitter
   m_TagString: Untagged
@@ -34,18 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -120.075, y: -90, z: 0}
---- !u!114 &3730442304026812980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2186281245719102764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24273aa4db68fec4db315eef66e403c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4624637011720247695
 GameObject:
   m_ObjectHideFlags: 0

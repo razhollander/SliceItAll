@@ -35,8 +35,8 @@ public class BalloonsModule : IBalloonsModule
         }
     }
 
-    private void OnBalloonPopTriggered(BalloonView balloonView)
+    private void OnBalloonPopTriggered(BalloonView balloonView, Vector3 position)
     {
-        _balloonCommand.Create(new PopBalloonCommandData(balloonView)).Execute();
+        _balloonCommand.Create(new PopBalloonCommandData(balloonView, position)).Execute();
     }
 }
