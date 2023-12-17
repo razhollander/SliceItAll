@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowCreator
 {
     private readonly IResourcesLoaderService _resourcesLoaderService;
-    private const string ArrowMovementAssetPath = "Arrow/ArrowMovementData";
+    private const string ArrowMovementAssetPath = "Configuration/ArrowMovementData";
     private const string ArrowAssetPath = "Arrow/Arrow";
 
     public ArrowCreator(IResourcesLoaderService resourcesLoaderService)

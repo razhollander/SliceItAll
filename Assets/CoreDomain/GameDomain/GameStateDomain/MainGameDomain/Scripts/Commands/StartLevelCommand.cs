@@ -16,6 +16,7 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
     private readonly IArrowModule _arrowModule;
     private readonly ICameraService _cameraService;
     private readonly IGameInputActionsModule _gameInputActionsModule;
+    private readonly IBalloonsModule _balloonsModule;
 
     public StartLevelCommand(
         StartLevelCommandData commandData,
@@ -25,7 +26,8 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
         ILevelsService levelsService,
         IArrowModule arrowModule,
         ICameraService cameraService,
-        IGameInputActionsModule gameInputActionsModule)
+        IGameInputActionsModule gameInputActionsModule,
+        IBalloonsModule balloonsModule)
     {
         _commandData = commandData;
         _scoreModule = scoreModule;
@@ -35,6 +37,7 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
         _arrowModule = arrowModule;
         _cameraService = cameraService;
         _gameInputActionsModule = gameInputActionsModule;
+        _balloonsModule = balloonsModule;
     }
 
     public override async UniTask Execute()
@@ -45,6 +48,7 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
         _arrowModule.RegisterListeners();
         _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
         _gameInputActionsModule.EnableInputs();
+        _balloonsModule.SetupBalloons();
         
         await UniTaskHandler.WaitForAnyKeyPressed();
         

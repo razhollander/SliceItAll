@@ -24,6 +24,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         private readonly IGameInputActionsModule _gameInputActionsModule;
         private readonly ILevelsService _levelsService;
         private readonly ILevelTrackModule _levelTrackModule;
+        private readonly IBalloonsModule _balloonsModule;
 
         public EnterMainGameStateCommand(
             MainGameStateEnterData stateEnterData,
@@ -35,7 +36,8 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             IArrowModule arrowModule,
             IGameInputActionsModule gameInputActionsModule,
             ILevelsService levelsService,
-            ILevelTrackModule levelTrackModule)
+            ILevelTrackModule levelTrackModule,
+            IBalloonsModule balloonsModule)
         {
             _stateEnterData = stateEnterData;
             _mainGameUiModule = mainGameUiModule;
@@ -46,6 +48,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
             _gameInputActionsModule = gameInputActionsModule;
             _levelsService = levelsService;
             _levelTrackModule = levelTrackModule;
+            _balloonsModule = balloonsModule;
             _audioService = audioService;
         }
 
@@ -67,6 +70,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             _levelsService.LoadLevelsData();
             _arrowModule.LoadArrowMovementData();
+            _balloonsModule.LoadData();
         }
     }
 }
