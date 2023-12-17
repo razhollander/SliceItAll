@@ -4,20 +4,20 @@ using CoreDomain.Scripts.Utils.Command;
 public class DisposeLevelCommand : CommandSync<DisposeLevelCommand>
 {
     private readonly ILevelTrackModule _levelTrackModule;
-    private readonly IScoreModule _scoreModule;
+    private readonly IScoreService _scoreService;
     private readonly IArrowModule _arrowModule;
 
-    public DisposeLevelCommand(ILevelTrackModule levelTrackModule, IScoreModule scoreModule, IArrowModule arrowModule)
+    public DisposeLevelCommand(ILevelTrackModule levelTrackModule, IScoreService scoreService, IArrowModule arrowModule)
     {
         _levelTrackModule = levelTrackModule;
-        _scoreModule = scoreModule;
+        _scoreService = scoreService;
         _arrowModule = arrowModule;
     }
     
     public override void Execute()
     {
         _levelTrackModule.Dispose();
-        _scoreModule.ResetScore();
+        _scoreService.ResetScore();
         _arrowModule.Dispose();
     }
 }

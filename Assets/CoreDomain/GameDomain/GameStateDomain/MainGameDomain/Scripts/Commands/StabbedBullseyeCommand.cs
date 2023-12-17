@@ -9,17 +9,17 @@ using UnityEngine;
 public class StabbedBullseyeCommand : Command<StabbedBullseyeCommand>
 {
     private readonly IMainGameUiModule _mainGameUiModule;
-    private readonly IScoreModule _scoreModule;
+    private readonly IScoreService _scoreService;
     private readonly IGameInputActionsModule _gameInputActionsModule;
     private readonly DisposeLevelCommand.Factory _disposeLevelCommand;
     private readonly StartLevelCommand.Factory _startLevelCommand;
     private readonly ILevelsService _levelsService;
 
-    public StabbedBullseyeCommand(IMainGameUiModule mainGameUiModule, IScoreModule scoreModule, IGameInputActionsModule gameInputActionsModule,
+    public StabbedBullseyeCommand(IMainGameUiModule mainGameUiModule, IScoreService scoreService, IGameInputActionsModule gameInputActionsModule,
         DisposeLevelCommand.Factory disposeLevelCommand, StartLevelCommand.Factory startLevelCommand, ILevelsService levelsService)
     {
         _mainGameUiModule = mainGameUiModule;
-        _scoreModule = scoreModule;
+        _scoreService = scoreService;
         _gameInputActionsModule = gameInputActionsModule;
         _disposeLevelCommand = disposeLevelCommand;
         _startLevelCommand = startLevelCommand;
@@ -28,7 +28,7 @@ public class StabbedBullseyeCommand : Command<StabbedBullseyeCommand>
 
     public override async UniTask Execute()
     {
-        _mainGameUiModule.ShowWinPanel(_scoreModule.PlayerScore);
+        _mainGameUiModule.ShowWinPanel(_scoreService.PlayerScore);
         _gameInputActionsModule.DisableInputs();
         
         // if we exceed the number of levels, we stay on the last level

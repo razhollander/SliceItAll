@@ -1,17 +1,10 @@
-using CoreDomain.Services;
-using UnityEngine;
-
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score
 {
-    public class ScoreModule : IScoreModule
+    public class ScoreService : IScoreService
     {
         private int _playerCurrentScore;
         public int PlayerScore => _playerCurrentScore;
 
-        public ScoreModule()
-        {
-        }
-        
         public void ResetScore()
         {
             _playerCurrentScore = 0;

@@ -1,6 +1,6 @@
 ﻿namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score
 {
-    public interface IScoreModule
+    public interface IScoreService
     {
         void AddScore(int score);
         int PlayerScore { get; }

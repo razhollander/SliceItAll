@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2329536431822898671}
   - component: {fileID: 4273634728856948561}
   - component: {fileID: 2916040143007137299}
-  - component: {fileID: 3077528315949950961}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -79,22 +78,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3077528315949950961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007715121212626835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 356affb39d65549479bebd88061013ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scoreText: {fileID: 0}
-  _timePlayedText: {fileID: 0}
-  _asteroidsPassedText: {fileID: 0}
-  _highScoreMessageText: {fileID: 0}
 --- !u!1 &1240714117691788787
 GameObject:
   m_ObjectHideFlags: 0

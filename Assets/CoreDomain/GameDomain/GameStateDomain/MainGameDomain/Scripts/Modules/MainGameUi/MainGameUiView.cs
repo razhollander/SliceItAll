@@ -1,13 +1,9 @@
-using System;
-using CoreDomain.Scripts.Utils.Command;
 using UnityEngine;
-using TMPro;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi
 {
     public class MainGameUiView : MonoBehaviour
     {
-        
         [SerializeField] private GameObject _gameOverPanel;
         [SerializeField] private BeforeGameUiView _beforeGameUiView;
         [SerializeField] private InGameUiView _inGameUiView;

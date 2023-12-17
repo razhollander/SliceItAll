@@ -82,7 +82,7 @@ public class ArrowMovementModule
 
     public void FreezeMovement(bool isDisableGravity, bool isEnableKinematic)
     {
-        _arrowView.FreezeMovement(false, true);
+        _arrowView.FreezeMovement(isDisableGravity, isEnableKinematic);
     }
 
     public void SetLoopAngularVelocity()

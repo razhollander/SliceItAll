@@ -5,19 +5,19 @@ using CoreDomain.Scripts.Utils.Command;
 public class ScoreChangedCommand : CommandSyncOneParameter<ScoreChangedCommandData, ScoreChangedCommand>
 {
     private readonly ScoreChangedCommandData _commandData;
-    private readonly IScoreModule _scoreModule;
+    private readonly IScoreService _scoreService;
     private readonly IMainGameUiModule _mainGameUiModule;
 
-    public ScoreChangedCommand(ScoreChangedCommandData commandData, IScoreModule scoreModule, IMainGameUiModule mainGameUiModule)
+    public ScoreChangedCommand(ScoreChangedCommandData commandData, IScoreService scoreService, IMainGameUiModule mainGameUiModule)
     {
         _commandData = commandData;
-        _scoreModule = scoreModule;
+        _scoreService = scoreService;
         _mainGameUiModule = mainGameUiModule;
     }
     
     public override void Execute()
     {
-        _scoreModule.AddScore((int)_commandData.ScoreAdded);
-        _mainGameUiModule.UpdateScore(_scoreModule.PlayerScore);
+        _scoreService.AddScore((int)_commandData.ScoreAdded);
+        _mainGameUiModule.UpdateScore(_scoreService.PlayerScore);
     }
 }

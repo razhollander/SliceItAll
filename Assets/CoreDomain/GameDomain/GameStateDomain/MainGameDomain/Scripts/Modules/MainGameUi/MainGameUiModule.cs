@@ -1,4 +1,3 @@
-using CoreDomain.Services;
 using UnityEngine;
 
 namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi

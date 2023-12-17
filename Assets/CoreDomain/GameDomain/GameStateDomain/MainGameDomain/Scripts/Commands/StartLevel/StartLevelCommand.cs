@@ -9,7 +9,7 @@ using CoreDomain.Services;
 public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, StartLevelCommand>
 {
     private readonly StartLevelCommandData _commandData;
-    private readonly IScoreModule _scoreModule;
+    private readonly IScoreService _scoreService;
     private readonly IMainGameUiModule _mainGameUiModule;
     private readonly ILevelTrackModule _levelTrackModule;
     private readonly ILevelsService _levelsService;
@@ -21,7 +21,7 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
 
     public StartLevelCommand(
         StartLevelCommandData commandData,
-        IScoreModule scoreModule,
+        IScoreService scoreService,
         IMainGameUiModule mainGameUiModule,
         ILevelTrackModule levelTrackModule,
         ILevelsService levelsService,
@@ -32,7 +32,7 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
         IBubblesModule bubblesModule)
     {
         _commandData = commandData;
-        _scoreModule = scoreModule;
+        _scoreService = scoreService;
         _mainGameUiModule = mainGameUiModule;
         _levelTrackModule = levelTrackModule;
         _levelsService = levelsService;
@@ -56,6 +56,6 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
 
         await UniTaskHandler.WaitForAnyKeyPressed();
 
-        _mainGameUiModule.SwitchToInGameView(_scoreModule.PlayerScore);
+        _mainGameUiModule.SwitchToInGameView(_scoreService.PlayerScore);
     }
 }

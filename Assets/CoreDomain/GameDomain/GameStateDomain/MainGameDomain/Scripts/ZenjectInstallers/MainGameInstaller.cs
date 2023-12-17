@@ -40,7 +40,6 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             Container.BindInterfacesTo<ArrowModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<MainGameUiModule>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<ScoreModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<LevelTrackModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<FXModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<BalloonsModule>().AsSingle().NonLazy();
@@ -51,6 +50,7 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             Container.BindInterfacesTo<GameInputActionsModule>().AsSingle().NonLazy();
             Container.BindInterfacesTo<LevelsService>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<ScoreService>().AsSingle().NonLazy();
         }
     }
 }
