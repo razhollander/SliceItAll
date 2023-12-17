@@ -19,5 +19,5 @@ MonoBehaviour:
   ShootRotationDuration: 0.5
   JumpAngleRelativeToFloor: 75
   JumpForce: 8
-  ShootVelocity: 40
+  ShootVelocity: 32
   AngularDrag: 2
