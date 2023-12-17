@@ -8,5 +8,6 @@ namespace CoreDomain.Services
         public const string BalloonPop = "BalloonPopSoundFX";
         public const string BubblePop = "BubblePopSoundFX";
         public const string Hit = "HitSoundFX";
+        public const string Spin = "SpinFX";
     }
 }

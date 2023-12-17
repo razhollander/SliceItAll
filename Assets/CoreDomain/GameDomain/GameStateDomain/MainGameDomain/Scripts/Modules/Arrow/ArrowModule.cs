@@ -75,6 +75,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
 
     private async UniTask Shoot()
     {
+        _audioService.PlayAudio(AudioClipName.Spin, AudioChannelType.Fx, AudioPlayType.OneShot);
         _arrowView.FreezeMovement(true, false);
         
         var currentRotationAngle = MathHandler.ConvertAngleToBeBetween0To360(_arrowView.GetZRotation());
