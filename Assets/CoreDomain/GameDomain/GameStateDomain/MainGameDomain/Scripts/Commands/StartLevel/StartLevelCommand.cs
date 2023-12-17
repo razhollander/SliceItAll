@@ -50,12 +50,12 @@ public class StartLevelCommand : CommandOneParameter<StartLevelCommandData, Star
         _arrowModule.CreateArrow();
         _arrowModule.RegisterListeners();
         _cameraService.SetCameraFollowTarget(GameCameraType.World, _arrowModule.ArrowTransform);
-        _gameInputActionsModule.EnableInputs();
         _balloonsModule.SetupBalloons();
         _bubblesModule.SetupBubbles();
-        
+        _gameInputActionsModule.EnableInputs();
+
         await UniTaskHandler.WaitForAnyKeyPressed();
-        
+
         _mainGameUiModule.SwitchToInGameView(_scoreModule.PlayerScore);
     }
 }

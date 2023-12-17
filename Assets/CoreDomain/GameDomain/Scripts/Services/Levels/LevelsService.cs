@@ -5,7 +5,7 @@ namespace CoreDomain.GameDomain
 {
     public class LevelsService : ILevelsService
     {
-        private const string LevelsAssetFullPath = @"Levels\Data\LevelsSettings";
+        private const string LevelsAssetFullPath = @"LevelsTracks\Data\LevelsSettings";
         private const string LastSavedLevelNumberKey = "LastLevelNumber";
 
         public int LastSavedLevelNumber => _lastSavedLevelNumber;

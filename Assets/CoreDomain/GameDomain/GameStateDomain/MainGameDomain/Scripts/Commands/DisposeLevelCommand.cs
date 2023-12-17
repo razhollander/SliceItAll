@@ -1,6 +1,5 @@
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score;
 using CoreDomain.Scripts.Utils.Command;
-using Cysharp.Threading.Tasks;
 
 public class DisposeLevelCommand : CommandSync<DisposeLevelCommand>
 {

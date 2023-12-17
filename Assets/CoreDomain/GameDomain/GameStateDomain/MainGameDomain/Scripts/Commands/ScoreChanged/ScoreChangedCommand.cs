@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.Score;
 using CoreDomain.Scripts.Utils.Command;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 public class ScoreChangedCommand : CommandSyncOneParameter<ScoreChangedCommandData, ScoreChangedCommand>
 {

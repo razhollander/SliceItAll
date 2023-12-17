@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using CoreDomain.GameDomain;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.GameKeyboardInputsModule;
 using CoreDomain.GameDomain.GameStateDomain.MainGameDomain.Modules.MainGameUi;
@@ -37,8 +35,9 @@ public class StabbedBullseyeCommand : Command<StabbedBullseyeCommand>
         var nextLevelNumber = Mathf.Min(_levelsService.LastSavedLevelNumber + 1, _levelsService.GetLevelsAmount()); 
         
         _levelsService.SetLastSavedLevel(nextLevelNumber);
+        
         await UniTaskHandler.WaitForAnyKeyPressed();
-
+        
         _disposeLevelCommand.Create().Execute();
         _startLevelCommand.Create(new StartLevelCommandData(_levelsService.LastSavedLevelNumber)).Execute().Forget();
     }

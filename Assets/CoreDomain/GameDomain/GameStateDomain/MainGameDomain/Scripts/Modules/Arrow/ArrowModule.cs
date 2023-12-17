@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using CoreDomain.Services;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -9,30 +7,32 @@ using UnityEngine;
 
 public class ArrowModule : IArrowModule, IFixedUpdatable
 {
+    public Transform ArrowTransform => _arrowView.transform;
+
+    private readonly Vector3 ArrowStartPos = new (0, 10, 0);
+    private readonly Quaternion ArrowStartRot = Quaternion.Euler(0, 0, -50);  
+    
     private readonly IUpdateSubscriptionService _updateSubscriptionService;
     private readonly ArrowCollisionEnterCommand.Factory _arrowCollisionEnterCommand;
     private readonly ArrowTriggerEnterCommand.Factory _arrowTriggerEnterCommand;
     private readonly ArrowParticleCollisionEnterCommand.Factory _arrowParticleCollisionEnterCommand;
     private readonly IAudioService _audioService;
     private readonly IResourcesLoaderService _resourcesLoaderService;
-    public Transform ArrowTransform => _arrowView.transform;
 
     private ArrowView _arrowView;
     private bool _canStabInCurrentLoop = true;
     private bool _isCurrentlyStabbing;
-    private TweenerCore<float,float,FloatOptions> _spinBeforeShootTween;
-    private Vector3 _shootVector;
-    private Vector3 _jumpVector;
     private float _prevZRotation;
-    private ArrowMovementData _arrowMovementData;
     private ArrowCreator _arrowCreator;
+    private ArrowMovementModule _arrowMovementModule;
     
     public ArrowModule(IUpdateSubscriptionService updateSubscriptionService, ArrowCollisionEnterCommand.Factory arrowCollisionEnterCommand,
         ArrowTriggerEnterCommand.Factory arrowTriggerEnterCommand,
         ArrowParticleCollisionEnterCommand.Factory arrowParticleCollisionEnterCommand,
         IAudioService audioService, IResourcesLoaderService resourcesLoaderService)
     {
-        _arrowCreator = new ArrowCreator(resourcesLoaderService); 
+        _arrowCreator = new ArrowCreator(resourcesLoaderService);
+        _arrowMovementModule = new ArrowMovementModule();
         _updateSubscriptionService = updateSubscriptionService;
         _arrowCollisionEnterCommand = arrowCollisionEnterCommand;
         _arrowTriggerEnterCommand = arrowTriggerEnterCommand;
@@ -42,9 +42,7 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
 
     public void LoadArrowMovementData()
     {
-        _arrowMovementData = _arrowCreator.LoadArrowMovementData();
-        _shootVector = Quaternion.Euler(0, 0, _arrowMovementData.ShootAngleRelativeToFloor) * Vector3.right * _arrowMovementData.ShootVelocity;
-        _jumpVector = Quaternion.Euler(0, 0, _arrowMovementData.JumpAngleRelativeToFloor) * Vector3.right * _arrowMovementData.JumpForce;
+        _arrowMovementModule.SetArrowMovementData(_arrowCreator.LoadArrowMovementData());
     }
 
     public void RegisterListeners()
@@ -60,9 +58,11 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     public void CreateArrow()
     {
         _arrowView = _arrowCreator.CreateArrow();
-        _arrowView.transform.position = new Vector3(0, 10, 0);
-        _arrowView.transform.rotation = Quaternion.Euler(0, 0, -50);  
-        _arrowView.Setup(OnArrowCollisionEnter, OnArrowTriggerEnter, OnArrowParticleCollisionEnter, _arrowMovementData.AngularDrag);
+        var arrowTransform = _arrowView.transform;
+        arrowTransform.position = ArrowStartPos;
+        arrowTransform.rotation = ArrowStartRot; 
+        _arrowView.SetupCallbacks(OnArrowCollisionEnter, OnArrowTriggerEnter, OnArrowParticleCollisionEnter);
+        _arrowMovementModule.SetArrow(_arrowView);
     }
 
     public void Dispose()
@@ -73,102 +73,46 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
         _isCurrentlyStabbing = false;
     }
 
-    private async UniTask Shoot()
+    private void Shoot()
     {
         _audioService.PlayAudio(AudioClipName.Spin, AudioChannelType.Fx, AudioPlayType.OneShot);
-        _arrowView.FreezeMovement(true, false);
-        
-        var currentRotationAngle = MathHandler.ConvertAngleToBeBetween0To360(_arrowView.GetZRotation());
-        var loopAnimationAngles = currentRotationAngle;
-
-        if (currentRotationAngle <180 && currentRotationAngle > _arrowMovementData.ShootAngleRelativeToFloor)
-        {
-            loopAnimationAngles += 360;
-        }
-        
-        _arrowView.SetZRotation(loopAnimationAngles);
-
-        _spinBeforeShootTween?.Kill();
-        _spinBeforeShootTween =  DOTween.To(
-            () => loopAnimationAngles-_arrowMovementData.ShootAngleRelativeToFloor,
-            x =>
-            {
-                loopAnimationAngles = x + _arrowMovementData.ShootAngleRelativeToFloor;
-                _arrowView.SetZRotation(loopAnimationAngles);
-            },
-            0, _arrowMovementData.ShootRotationDuration);
-
-        _spinBeforeShootTween.OnComplete(() =>
-        {
-            _arrowView.EnableThruster(true);
-            _arrowView.SetGravity(true);
-            _arrowView.SetAngularVelocity(Vector3.zero);
-            _arrowView.SetVelocity(_shootVector);
-        });
-        
-        await _spinBeforeShootTween;
-    
+        _arrowMovementModule.Shoot().Forget();
     }
-    
+
     public void TryShoot()
     {
         if (_isCurrentlyStabbing) return;
-        
-        Shoot().Forget();
+
+        Shoot();
     }
     
     public void Jump()
     {
         _audioService.PlayAudio(AudioClipName.Jump, AudioChannelType.Fx, AudioPlayType.OneShot);
-
-        _spinBeforeShootTween?.Kill();
-        _isCurrentlyStabbing = false;
-        
+        _arrowMovementModule.Jump();
         EnableThruster(false);
-        _arrowView.SetIsKinematic(false);
-        _arrowView.SetGravity(true);
-        _arrowView.SetVelocity(_jumpVector);
-        _arrowView.SetZAngularVelocity(_arrowMovementData.SpacePressedRotationLoopSpeed);
+        _isCurrentlyStabbing = false;
     }
 
     public void ManagedFixedUpdate()
     {
         var currentZRotation = MathHandler.ConvertAngleToBeBetween0To360(_arrowView.GetZRotation());
-        var shouldStartANewLoop = _prevZRotation is < 280 and > 270 && currentZRotation is > 260 and <= 270;
+
+        TrySelfLoop(currentZRotation);
+        TryResetIfCanStab(currentZRotation);
         
-        if (shouldStartANewLoop)
-        {
-            SetLoopAngularVelocity();
-        }
-
-        if (!_canStabInCurrentLoop)
-        {
-            var minimalStabAngle = 85f;
-            var didPassMinimalStabAngle = _prevZRotation < minimalStabAngle+30f && _prevZRotation > minimalStabAngle && currentZRotation > minimalStabAngle-30f && currentZRotation <= minimalStabAngle;
-
-            if (didPassMinimalStabAngle)
-            {
-                _canStabInCurrentLoop = true;
-            }
-        }
-
         _prevZRotation = currentZRotation;
-    }
-    
-    private void SetLoopAngularVelocity()
-    {
-        _arrowView.SetZAngularVelocity(_arrowMovementData.StartRotationLoopSpeed);
     }
 
     public bool TryStabContactPoint(ContactPoint collisionContact)
     {
-        if (!_canStabInCurrentLoop || !DidStabContactPoint(collisionContact))
+        if (!_canStabInCurrentLoop || !_arrowMovementModule.DidStabContactPoint(collisionContact))
         {
             return false;
         }
 
         _audioService.PlayAudio(AudioClipName.Stab, AudioChannelType.Fx, AudioPlayType.OneShot);
-        _arrowView.FreezeMovement(false, true);
+        _arrowMovementModule.FreezeMovement(false, true);
         _isCurrentlyStabbing = true;
         _canStabInCurrentLoop = false;
 
@@ -189,11 +133,28 @@ public class ArrowModule : IArrowModule, IFixedUpdatable
     {
         _arrowParticleCollisionEnterCommand.Create(new ArrowParticleCollisionEnterCommandData(particleSystem, _arrowView.gameObject)).Execute();
     }
-    
-    private bool DidStabContactPoint(ContactPoint contactPoint)
+
+    private void TryResetIfCanStab(float currentZRotation)
     {
-        Vector3 contactPointNormal = contactPoint.normal;
-        Vector3 hitVector = -_arrowView.transform.right;
-        return Vector3.Angle(hitVector, contactPointNormal) < _arrowMovementData.MaxStabAngleWithSurface;
+        if (!_canStabInCurrentLoop)
+        {
+            var minimalStabAngle = 85f;
+            var didPassMinimalStabAngle = _prevZRotation < minimalStabAngle+30f && _prevZRotation > minimalStabAngle && currentZRotation > minimalStabAngle-30f && currentZRotation <= minimalStabAngle;
+
+            if (didPassMinimalStabAngle)
+            {
+                _canStabInCurrentLoop = true;
+            }
+        }
+    }
+
+    private void TrySelfLoop(float currentZRotation)
+    {
+        var shouldStartANewLoop = _prevZRotation is < 280 and > 270 && currentZRotation is > 260 and <= 270;
+
+        if (shouldStartANewLoop)
+        {
+            _arrowMovementModule.SetLoopAngularVelocity();
+        }
     }
 }

@@ -11,12 +11,16 @@ public class ArrowView : MonoBehaviour
     private Action<Collider> _onTriggerEnter;
     private Action<ParticleSystem> _onParticleCollisionEnter;
 
-    public void Setup(Action<Collision> onCollisionEnter, Action<Collider> onTriggerEnter, Action<ParticleSystem> onParticleCollisionEnter, float angularDrag)
+    public void SetupCallbacks(Action<Collision> onCollisionEnter, Action<Collider> onTriggerEnter, Action<ParticleSystem> onParticleCollisionEnter)
     {
         _onCollisionEnter = onCollisionEnter;
         _onTriggerEnter = onTriggerEnter;
-        _rigidbody.angularDrag = angularDrag;
         _onParticleCollisionEnter = onParticleCollisionEnter;
+    }
+
+    public void SetAngularDrag(float angularDrag)
+    {
+        _rigidbody.angularDrag = angularDrag;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -45,7 +49,7 @@ public class ArrowView : MonoBehaviour
 
     }
 
-    public void FreezeMovement( bool isDisableGravity, bool isEnableKinematic)
+    public void FreezeMovement(bool isDisableGravity, bool isEnableKinematic)
     {
         SetVelocity(Vector3.zero);
         SetAngularVelocity(Vector3.zero);

@@ -30,10 +30,5 @@ namespace CoreDomain.GameDomain.GameStateDomain.MainGameDomain
         {
             await _exitMainGameStateCommandFactory.Create().Execute();
         }
-
-        private void OnApplicationQuit()
-        {
-            //ExitState().Forget();
-        }
     }
 }
