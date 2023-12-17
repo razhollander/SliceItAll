@@ -81,7 +81,7 @@ public partial class @GameInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6e2ae00e-8287-4c91-8cce-13efb714790c"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""path"": ""<Touchscreen>/touch*/Press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
