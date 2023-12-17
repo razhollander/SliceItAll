@@ -19,9 +19,4 @@ public class FXModule : IFXModule
         
         scoreGainedFXView.Despawn();
     }
-
-    public void Dispose()
-    {
-        _fxCreator.Dispose();
-    }
 }

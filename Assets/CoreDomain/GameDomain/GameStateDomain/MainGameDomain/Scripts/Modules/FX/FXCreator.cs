@@ -14,9 +14,4 @@ public class FXCreator
     {
         return _scoreGainedFXPool.Spawn();
     }
-
-    public void Dispose()
-    {
-        
-    }
 }

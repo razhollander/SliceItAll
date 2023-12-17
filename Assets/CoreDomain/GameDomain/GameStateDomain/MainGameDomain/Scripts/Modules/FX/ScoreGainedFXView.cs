@@ -14,8 +14,6 @@ public class ScoreGainedFXView : MonoBehaviour, IPoolable
     [SerializeField] private float _idleDurationSeconds;
     [SerializeField] private float _exitDurationSeconds;
     [SerializeField] private float _scale;
-    [SerializeField] private int _vibration = 10;
-    [SerializeField] private float _elasatic = 1;
     [SerializeField] private Ease _enterEase = Ease.OutBounce;
     [SerializeField] private Ease _exitEase = Ease.InCubic;
     private Transform _transform;
@@ -29,7 +27,7 @@ public class ScoreGainedFXView : MonoBehaviour, IPoolable
     {
         _transform.position = position;
         _transform.localScale = Vector3.zero;
-        _text.text = string.Format(TextEffectFormat, scoreGained);
+        _text.text = string.Format(TextEffectFormat, scoreGained.ToString());
     }
     
     public async UniTask DoShowAnimation()

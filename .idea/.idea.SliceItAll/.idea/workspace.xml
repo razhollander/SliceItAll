@@ -130,7 +130,7 @@
       <workItem from="1702459787632" duration="23813000" />
       <workItem from="1702625670838" duration="12970000" />
       <workItem from="1702728687657" duration="25300000" />
-      <workItem from="1702821844654" duration="15569000" />
+      <workItem from="1702821844654" duration="15817000" />
     </task>
     <servers />
   </component>
@@ -141,51 +141,6 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/CoreDomain/Plugins/Zenject/Source/Install/Contexts/SceneContext.cs</url>
-          <line>127</line>
-          <properties documentPath="C:\Users\Raz\Documents\PF\Raz\Work\Dev\Unity\SliceItAll\Assets\CoreDomain\Plugins\Zenject\Source\Install\Contexts\SceneContext.cs" initialLine="127" containingFunctionPresentation="method 'RunInternal'">
-            <startOffsets>
-              <option value="3663" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3709" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Modules/Arrow/ArrowMovementModule.cs</url>
-          <line>29</line>
-          <properties documentPath="C:\Users\Raz\Documents\PF\Raz\Work\Dev\Unity\SliceItAll\Assets\CoreDomain\GameDomain\GameStateDomain\MainGameDomain\Scripts\Modules\Arrow\ArrowMovementModule.cs" initialLine="29" containingFunctionPresentation="method 'Shoot'">
-            <startOffsets>
-              <option value="1019" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1047" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/CoreDomain/GameDomain/GameStateDomain/MainGameDomain/Scripts/Modules/Arrow/ArrowMovementModule.cs</url>
-          <line>59</line>
-          <properties documentPath="C:\Users\Raz\Documents\PF\Raz\Work\Dev\Unity\SliceItAll\Assets\CoreDomain\GameDomain\GameStateDomain\MainGameDomain\Scripts\Modules\Arrow\ArrowMovementModule.cs" initialLine="59" containingFunctionPresentation="method 'LaunchArrow'">
-            <startOffsets>
-              <option value="2113" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2145" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
